@@ -1,0 +1,14 @@
+{
+  "name": "cen3031-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThatGuyMrZero/CEN3031-Project.git"
+  },
+  "private": true
+}
