@@ -1,0 +1,23 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="menu">
+  <h2>Login</h2>
+  <label for="username"></label><input type="text" placeholder="Username" id="username">
+  <label for="password"></label><input type="password" placeholder="Password" id="password">
+  <button onclick="login()">Login</button>
+  <button onclick="window.location.href='/create-account'">Create Account</button>
+  <button onclick="forgotPassword()">Forgot Password</button>
+  <button onclick="window.location.href='/'">Back to Menu</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
