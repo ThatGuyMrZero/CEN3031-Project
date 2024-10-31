@@ -1,0 +1,21 @@
+{
+  "name": "cen3031-project",
+  "version": "1.0.0",
+  "description": "Project for intro to software engineering group 5",
+  "main": "test.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThatGuyMrZero/CEN3031-Project.git"
+  },
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThatGuyMrZero/CEN3031-Project/issues"
+  },
+  "homepage": "https://github.com/ThatGuyMrZero/CEN3031-Project#readme"
+}
