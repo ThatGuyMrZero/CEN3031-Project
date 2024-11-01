@@ -101,6 +101,7 @@ function showOptions() {
 
 function exitGame() {
     alert("Exiting the game...");
+    window.close();
     // Implement the exit functionality here
 }
 
