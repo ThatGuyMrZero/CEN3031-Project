@@ -1,5 +1,5 @@
 function initializeAuthButtons() {
-    // depending if person is logged in it will show differently
+    // depending on if person is logged in it will show differently
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         const authButton = document.getElementById('authButton');
         authButton.innerText = 'Profile';
@@ -9,6 +9,7 @@ function initializeAuthButtons() {
     }
 }
 
+// TODO: UNIMPLEMENTED
 function handleAuthButtonClick() {
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         alert("Profile page coming soon!");
@@ -56,6 +57,7 @@ function login() {
         });
 }
 
+// TODO: Ensure that the user cannot enter blank fields for username and password
 function createAccount() {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('newPassword').value;
@@ -89,18 +91,20 @@ function createAccount() {
         });
 }
 
+// TODO: Do game stuff
 function playGame() {
     alert("Starting the game...");
     // Implement the play game functionality here
 }
 
+// TODO: UNIMPLEMENTED
 function showOptions() {
     alert("Opening options...");
     // Implement the options functionality here
 }
 
 function exitGame() {
-    alert("Exiting the game...");
+    alert("Exiting the game, thanks for playing!");
     window.close();
     // Implement the exit functionality here
 }
