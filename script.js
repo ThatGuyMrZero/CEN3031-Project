@@ -105,6 +105,7 @@ function showOptions() {
 
 function exitGame() {
     alert("Exiting the game, thanks for playing!");
+    // TODO: Make sure the window can close when the user has switched to another page previously
     window.close();
     // Implement the exit functionality here
 }
