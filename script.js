@@ -67,6 +67,14 @@ function createAccount() {
         alert("Passwords do not match!");
         return;
     }
+    else if (username === "" || password === "") {
+        alert("Username or password is required!");
+        return;
+    }
+    else if (password.length < 8) {
+        alert("Password must be at least 8 characters long!");
+        return;
+    }
 
     const userData = JSON.stringify({ username, password });
 
@@ -91,6 +99,43 @@ function createAccount() {
         });
 }
 
+function updatePassword() {
+    const username = document.getElementById('confirmUsername').value;
+    const password = document.getElementById('enterNewPassword').value;
+    const confirmPassword = document.getElementById('confirmNewPassword').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+    else if (password.length < 8) {
+        alert("Password must be at least 8 characters long!");
+        return;
+    }
+
+    const userData = JSON.stringify({ username, password });
+
+    fetch('/update-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: userData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Password updated successfully!");
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('password', password);
+                window.location.href = '/';
+            } else {
+                alert("Error updating password.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred.");
+        });
+}
 // TODO: Do game stuff
 function playGame() {
     alert("Starting the game...");
