@@ -53,11 +53,20 @@ const server = http.createServer((req, res) => {
                 res.writeHead(500);
                 res.end('Error loading create account page');
             } else {
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
+            }
+        });
+    } else if (req.url === '/options') {
+        fs.readFile(path.join(__dirname, 'options.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading options page');
+            } else {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
                 res.end(data);
             }
         });
-
     } else if (req.url === '/save-account' && req.method === 'POST') {
         let body = '';
 

@@ -100,7 +100,19 @@ function playGame() {
 // TODO: UNIMPLEMENTED
 function showOptions() {
     alert("Opening options...");
-    // Implement the options functionality here
+    window.location.href='/options';
+}
+
+function changeBackgroundColor(color) {
+    document.body.style.backgroundColor = color;
+    localStorage.setItem('backgroundColor', color);
+}
+
+function loadSavedColor(color) {
+    const savedColor = localStorage.getItem('backgroundColor');
+    if (savedColor) {
+        document.body.style.backgroundColor = savedColor;
+    }
 }
 
 function exitGame() {
