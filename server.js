@@ -27,6 +27,16 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
+    } else if (req.url === '/profile') {
+        fs.readFile(path.join(__dirname, 'profile.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading login page');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
     } else if (req.url === '/styles.css') {
         fs.readFile(path.join(__dirname, 'styles.css'), (err, data) => {
             if (err) {

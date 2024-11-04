@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+
+<body>
+
+
+<div id="profileMenu" class="section">
+
+
+        <div id="colorSelection" class="menu">
+            <div>
+                Include:<br>
+                <label for="color-primary-checkbox">Primary</label>
+                <input type="checkbox" id="color-primary-checkbox" name="color-primary-checkbox" value="1">
+                <label for="color-secondary-checkbox">Secondary:</label>
+                <input type="checkbox" id="color-secondary-checkbox" name="color-secondary-checkbox" value="1">
+                <label for="color-tertiary-checkbox">Tertiary</label>
+                <input type="checkbox" id="color-tertiary-checkbox" name="color-tertiary-checkbox" value="1">
+            </div>
+            <br>
+            <div>
+                <label for="color-primary">Primary color: </label><input type="color" value="#808890" id="color-primary">
+                <label for="color-secondary">Secondary color: </label><input type="color" value="#908880" id="color-secondary">
+                <label for="color-tertiary">Tertiary color: </label><input type="color" value="#38a050" id="color-tertiary">
+            </div>
+            <br>
+            <div style="flex-direction: row">
+                <button onclick="setColors()">Set colors</button>
+                <button onclick="colorDefault()">Default</button>
+            </div>
+        </div>
+
+    <button onclick="window.location.href='/'">Back to Menu</button>
+
+</div>
+
+
+</body>
+
+
+
+<script src="script.js"></script>
+
+
+</html>

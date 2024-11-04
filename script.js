@@ -1,17 +1,15 @@
 function initializeAuthButtons() {
-    // depending if person is logged in it will show differently
+    // depending on if person is logged in it will show differently
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         const authButton = document.getElementById('authButton');
         authButton.innerText = 'Profile';
-        authButton.onclick = () => alert("Profile page coming soon!"); // Placeholder for profile page
-
         document.getElementById('signOutButton').style.display = 'inline-block';
     }
 }
 
 function handleAuthButtonClick() {
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
-        alert("Profile page coming soon!");
+        window.location.href = '/profile';
     } else {
         window.location.href = '/login';
     }
@@ -30,18 +28,18 @@ function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const loginData = JSON.stringify({ username, password });
+    const loginData = JSON.stringify({username, password});
 
     // sends info to check if user is in json
     fetch('/validate-login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: loginData
     })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Login successful!");
+                //alert("Login successful!");
                 sessionStorage.setItem('isLoggedIn', 'true');
                 sessionStorage.setItem('username', username);
                 // redirect to main menu
@@ -66,12 +64,12 @@ function createAccount() {
         return;
     }
 
-    const userData = JSON.stringify({ username, password });
+    const userData = JSON.stringify({username, password});
 
     // sends data to the json file
     fetch('/save-account', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: userData
     })
         .then(response => response.json())
@@ -89,6 +87,10 @@ function createAccount() {
         });
 }
 
+function forgotPassword() {
+    alert("That's too bad...");
+}
+
 function playGame() {
     alert("Starting the game...");
     // Implement the play game functionality here
@@ -104,5 +106,51 @@ function exitGame() {
     // Implement the exit functionality here
 }
 
-// Initialize the authentication buttons when the page loads
-window.onload = initializeAuthButtons;
+function setColors() {
+    const primary = document.getElementById('color-primary').value;
+    sessionStorage.setItem('color-primary', primary);
+
+    const secondary = document.getElementById('color-secondary').value;
+    sessionStorage.setItem('color-secondary', secondary);
+
+    const tertiary = document.getElementById('color-tertiary').value;
+    sessionStorage.setItem('color-tertiary', tertiary);
+
+    document.body.style.backgroundImage = "linear-gradient(" + primary + ", " + secondary + ", " + tertiary + ")";
+}
+
+function colorDefault() {
+    document.body.style.backgroundImage = "none";
+    sessionStorage.setItem('color-primary', null);
+}
+
+function loadProfile() {
+    if (sessionStorage.getItem('color-Primary') === null) {
+        return;
+    }
+
+    const primary = sessionStorage.getItem('color-primary');
+    const secondary = sessionStorage.getItem('color-secondary');
+    const tertiary = sessionStorage.getItem('color-tertiary');
+
+    document.body.style.backgroundImage = "linear-gradient(" + primary + ", " + secondary + ", " + tertiary + ")";
+}
+
+// Initialize stuff when the page loads
+window.addEventListener("load", (event) => {
+    initializeAuthButtons();
+    //TODO: Make profile loading work.
+    loadProfile();
+});
+
+document.body.innerHTML += `
+<header>
+    <div id="authButtonContainer">
+        <button className="login-button" id="authButton" onClick="handleAuthButtonClick()">Login</button>
+        <button className="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
+    </div>
+    <div class="profilePicture">
+        
+    </div>
+</header>
+`
