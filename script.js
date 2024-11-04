@@ -161,7 +161,7 @@ function loadSavedColor(color) {
 }
 
 function exitGame() {
-    alert("Exiting the game, thanks for playing!");
+    alert("Exiting the game, thanks for playing! You may now close this window at any time.");
     // TODO: Make sure the window can close when the user has switched to another page previously
     window.close();
     // Implement the exit functionality here
