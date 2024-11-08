@@ -90,7 +90,8 @@ function createAccount() {
 }
 
 function playGame() {
-    alert("Starting the game...");
+    let username = document.getElementById('username').value;
+    alert("Starting the game... " + username);
     // Implement the play game functionality here
 }
 
