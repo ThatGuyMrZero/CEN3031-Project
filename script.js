@@ -54,7 +54,6 @@ function login() {
         });
 }
 
-// TODO: Ensure that the user cannot enter blank fields for username and password
 function createAccount() {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('newPassword').value;
@@ -64,21 +63,13 @@ function createAccount() {
         alert("Passwords do not match!");
         return;
     }
-    else if (username === "" || password === "") {
-        alert("Username or password is required!");
-        return;
-    }
-    else if (password.length < 8) {
-        alert("Password must be at least 8 characters long!");
-        return;
-    }
 
-    const userData = JSON.stringify({username, password});
+    const userData = JSON.stringify({ username, password });
 
     // sends data to the json file
     fetch('/save-account', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: userData
     })
         .then(response => response.json())
@@ -163,96 +154,9 @@ function showOptions() {
 }
 
 function exitGame() {
-    alert("Exiting the game, thanks for playing! You may now close this window at any time.");
-    // TODO: Make sure the window can close when the user has switched to another page previously
-    window.close();
+    alert("Exiting the game...");
     // Implement the exit functionality here
 }
 
-function colorDefault() {
-
-    document.body.style.backgroundImage = "none";
-    sessionStorage.setItem('default', 'true');
-
-    sessionStorage.setItem('color-primary', '#808890')
-    sessionStorage.setItem('color-secondary', '#908880')
-    sessionStorage.setItem('color-tertiary', '#38a050')
-
-    sessionStorage.setItem('width-primary', 0);
-    sessionStorage.setItem('width-secondary', 50);
-    sessionStorage.setItem('width-tertiary', 100);
-
-    sessionStorage.setItem('angle', '180');
-
-    sessionStorage.setItem('background-type', 'solid');
-
-    location.reload();
-}
-
-function loadProfile() {
-
-    const defaultFlag = sessionStorage.getItem('default');
-    // Do nothing if default settings flag is set.
-    if ( defaultFlag === 'true' ) {
-        return;
-    }
-    // If fresh logon, set defaults.
-    else if ( defaultFlag === null ) {
-        colorDefault();
-        return;
-    }
-
-    // Get relevant session variables.
-    let primary = sessionStorage.getItem('color-primary');
-    let secondary = sessionStorage.getItem('color-secondary');
-    let tertiary = sessionStorage.getItem('color-tertiary');
-
-    let widthPrimary = sessionStorage.getItem('width-primary');
-    let widthSecondary = sessionStorage.getItem('width-secondary');
-    let widthTertiary = sessionStorage.getItem('width-tertiary');
-
-    let angle = sessionStorage.getItem('angle');
-
-    let type = sessionStorage.getItem('background-type');
-
-    // For each type of background, set it using the variables.
-    if ( type === 'solid' ) {
-
-        document.body.style.backgroundColor = primary;
-        document.body.style.backgroundImage = 'none';
-    }
-    else if ( type === 'linear-gradient') {
-
-        document.body.style.backgroundImage = "linear-gradient(" + angle + "deg, " + primary + " " +
-            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
-    }
-    else if ( type === 'radial-gradient') {
-
-        document.body.style.backgroundImage = "radial-gradient(" + primary + " " +
-            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
-    }
-    else if ( type === 'repeating-linear-gradient') {
-
-        document.body.style.backgroundImage = "repeating-linear-gradient(" + angle + "deg, " + primary + " " +
-            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
-    }
-}
-
-// Initialize stuff when the page loads
-window.addEventListener("load", () => {
-    initializeAuthButtons();
-    loadProfile();
-});
-
-
-document.body.innerHTML += `
-<header>
-    <div id="authButtonContainer">
-        <button class="login-button" id="authButton" onClick="handleAuthButtonClick()">Login</button>
-        <button class="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
-    </div>
-    <div class="profilePicture">
-        <img class="profileImage" src="/media/profile-pictures/tobias-funke.png" alt="Profile picture."/>
-    </div>
-</header>
-`
+// Initialize the authentication buttons when the page loads
+window.onload = initializeAuthButtons;
