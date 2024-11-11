@@ -106,40 +106,22 @@ function exitGame() {
     // Implement the exit functionality here
 }
 
-function setColors() {
-    const primary = document.getElementById('color-primary').value;
-    sessionStorage.setItem('color-primary', primary);
-
-    const secondary = document.getElementById('color-secondary').value;
-    sessionStorage.setItem('color-secondary', secondary);
-
-    const tertiary = document.getElementById('color-tertiary').value;
-    sessionStorage.setItem('color-tertiary', tertiary);
-
-    document.body.style.backgroundImage = "linear-gradient(" + primary + ", " + secondary + ", " + tertiary + ")";
-}
-
-function colorDefault() {
-    document.body.style.backgroundImage = "none";
-    sessionStorage.setItem('color-primary', null);
-}
-
 function loadProfile() {
-    if (sessionStorage.getItem('color-Primary') === null) {
+    if (sessionStorage.getItem('default') === 'true') {
         return;
     }
 
+    const type = sessionStorage.getItem('background-type');
     const primary = sessionStorage.getItem('color-primary');
     const secondary = sessionStorage.getItem('color-secondary');
     const tertiary = sessionStorage.getItem('color-tertiary');
 
-    document.body.style.backgroundImage = "linear-gradient(" + primary + ", " + secondary + ", " + tertiary + ")";
+    document.body.style.backgroundImage = type + "(" + primary + ", " + secondary + ", " + tertiary + ")";
 }
 
 // Initialize stuff when the page loads
 window.addEventListener("load", (event) => {
     initializeAuthButtons();
-    //TODO: Make profile loading work.
     loadProfile();
 });
 

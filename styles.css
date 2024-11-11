@@ -13,20 +13,31 @@ body {
 /* Header styling for the login button */
 header {
     position: absolute;
+    display:flex;
     top: 10px;
     right: 10px;
-    flex-flow: row nowrap;
+    width: calc(100% - 20px);
+    max-height: 140px;
+    flex-flow: row-reverse wrap;
+    justify-content: space-between;
 }
 
 header .profilePicture {
-    padding-left: 10px;
-    margin-right: auto;
-    border: 2px solid red;
+    padding: 1px;
+    background-color: #ffffff;
+    background-image: url(/media/profile-pictures/tobias-funke.png);
+    width: 50px;
+
+    border: 1px solid red;
+}
+
+#authButtonContainer {
+    flex-flow: column nowrap;
+    justify-content: space-between;
 }
 
 /* Login button styling */
 .login-button {
-    padding: 10px 15px;
     font-size: 16px;
     color: #fff;
     background-color: #333;
