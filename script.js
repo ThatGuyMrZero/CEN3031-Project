@@ -112,6 +112,11 @@ function loadProfile() {
     }
 
     const type = sessionStorage.getItem('background-type');
+
+    if (undefined === type) {
+        sessionStorage.setItem('background-type', 'linear-gradient');
+    }
+
     const primary = sessionStorage.getItem('color-primary');
     const secondary = sessionStorage.getItem('color-secondary');
     const tertiary = sessionStorage.getItem('color-tertiary');

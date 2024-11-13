@@ -80,10 +80,10 @@
             <div class="dropdown">
                 <button class="button">Background Type</button>
                 <div class="dropdown-content">
-                    <button onclick="() => {sessionStorage.setItem('background-type', 'solid');}">Solid</button>
-                    <button onclick="() => {sessionStorage.setItem('background-type', 'linear-gradient');}">Linear Gradient</button>
-                    <button onclick="() => {sessionStorage.setItem('background-type', 'radial-gradient');}">Radial Gradient</button>
-                    <button onclick="() => {sessionStorage.setItem('background-type', 'repeating-linear-gradient');}">Repeating Linear Gradient</button>
+                    <button onclick="pickType('solid')">Solid</button>
+                    <button onclick="pickType('linear-gradient')">Linear Gradient</button>
+                    <button onclick="pickType('radial-gradient')">Radial Gradient</button>
+                    <button onclick="pickType('repeating-linear-gradient')">Repeating Linear Gradient</button>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
 
             <div class="">
                 <label for="angle">Angle:</label>
-                <input type="range" id="angle" name="angle" min="0" max="360" value="180">
+                <input type="range" id="angle" name="angle" min="0" max="360" />
                 <output id="angle-output"></output>
             </div>
 
@@ -135,20 +135,26 @@
 </body>
 
 
-<script src="script.js">
+<script>
 
-    const rangeInput = document.getElementById("angle");
-    const rangeOutput = document.getElementById("angle-output");
+    const angleInput = document.querySelector("#angle");
+    const angleOutput = document.querySelector("#angle-output");
 
-    rangeOutput.textContent = rangeInput.value;
+    angleOutput.textContent = angleInput.value;
     
     /* TODO: make event listener work. */
-    rangeInput.addEventListener("input", (event) => {
-        rangeOutput.textContent = rangeInput.value;
+    angleInput.addEventListener("input", (event) => {
+        angleOutput.textContent = event.target.value;
     });
 
+    function pickType(type='linear-gradient') {
+        sessionStorage.setItem('background-type', type);
+    }
 
     function setColors() {
+
+        sessionStorage.setItem('default', 'false');
+
         const primary_bool = document.getElementById('color-primary-checkbox').checked
         let primary = document.getElementById('color-primary').value;
         sessionStorage.setItem('color-primary', primary);
@@ -164,10 +170,10 @@
         let type = sessionStorage.getItem('background-type');
         if (undefined === type) {
             type = 'linear-gradient';
+            sessionStorage.setItem('background-type', type);
         }
 
-        /* TODO: make background selector work again. */
-        document.body.style.backgroundImage = type + "(" + primary + "," + secondary + "," + tertiary + ")";
+        location.replace(location.href);
     }
 
     function colorDefault() {
@@ -176,5 +182,6 @@
     }
 </script>
 
+<script src="script.js"></script>
 
 </html>
