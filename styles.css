@@ -90,3 +90,13 @@ input[type="password"] {
     background-color: #444;
     color: #fff;
 }
+
+.red {background-color: red}
+.orange {background-color: orange}
+.yellow {background-color: yellow}
+.green {background-color: green}
+.blue {background-color: blue}
+.violet {background-color: violet}
+.brown {background-color: brown}
+.black {background-color: black}
+.white {background-color: white}

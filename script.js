@@ -39,7 +39,7 @@ function login() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                //alert("Login successful!");
+                alert("Login successful!");
                 sessionStorage.setItem('isLoggedIn', 'true');
                 sessionStorage.setItem('username', username);
                 // redirect to main menu
@@ -54,6 +54,7 @@ function login() {
         });
 }
 
+// TODO: Ensure that the user cannot enter blank fields for username and password
 function createAccount() {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('newPassword').value;
@@ -61,6 +62,14 @@ function createAccount() {
 
     if (password !== confirmPassword) {
         alert("Passwords do not match!");
+        return;
+    }
+    else if (username === "" || password === "") {
+        alert("Username or password is required!");
+        return;
+    }
+    else if (password.length < 8) {
+        alert("Password must be at least 8 characters long!");
         return;
     }
 
@@ -87,22 +96,59 @@ function createAccount() {
         });
 }
 
-function forgotPassword() {
-    alert("That's too bad...");
-}
+function updatePassword() {
+    const username = document.getElementById('confirmUsername').value;
+    const password = document.getElementById('enterNewPassword').value;
+    const confirmPassword = document.getElementById('confirmNewPassword').value;
 
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+    else if (password.length < 8) {
+        alert("Password must be at least 8 characters long!");
+        return;
+    }
+
+    const userData = JSON.stringify({ username, password });
+
+    fetch('/update-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: userData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Password updated successfully!");
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('password', password);
+                window.location.href = '/';
+            } else {
+                alert("Error updating password.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred.");
+        });
+}
+// TODO: Do game stuff
 function playGame() {
     alert("Starting the game...");
     // Implement the play game functionality here
 }
 
+// TODO: UNIMPLEMENTED
 function showOptions() {
     alert("Opening options...");
     // Implement the options functionality here
 }
 
 function exitGame() {
-    alert("Exiting the game...");
+    alert("Exiting the game, thanks for playing! You may now close this window at any time.");
+    // TODO: Make sure the window can close when the user has switched to another page previously
+    window.close();
     // Implement the exit functionality here
 }
 
