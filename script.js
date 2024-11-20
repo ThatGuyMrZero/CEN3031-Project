@@ -135,8 +135,9 @@ function updatePassword() {
 }
 // TODO: Do game stuff
 function playGame() {
-    alert("Starting the game...");
+    //alert("Starting the game...");
     // Implement the play game functionality here
+    window.location.href = '/game';
 }
 
 // TODO: UNIMPLEMENTED
@@ -156,6 +157,11 @@ function loadProfile() {
     if (sessionStorage.getItem('default') === 'true') {
         return;
     }
+    if (!sessionStorage.getItem('isLoggedIn')) {
+        document.body.style.backgroundImage = "none";
+        sessionStorage.setItem('default', 'true');
+        return;
+    }
 
     const type = sessionStorage.getItem('background-type');
 
@@ -171,7 +177,7 @@ function loadProfile() {
 }
 
 // Initialize stuff when the page loads
-window.addEventListener("load", (event) => {
+window.addEventListener("load", () => {
     initializeAuthButtons();
     loadProfile();
 });
@@ -179,11 +185,11 @@ window.addEventListener("load", (event) => {
 document.body.innerHTML += `
 <header>
     <div id="authButtonContainer">
-        <button className="login-button" id="authButton" onClick="handleAuthButtonClick()">Login</button>
-        <button className="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
+        <button class="login-button" id="authButton" onClick="handleAuthButtonClick()">Login</button>
+        <button class="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
     </div>
     <div class="profilePicture">
-        
+        <img class="profileImage" src="media/profile-pictures/tobias-funke.png" alt="Profile picture."/>
     </div>
 </header>
 `

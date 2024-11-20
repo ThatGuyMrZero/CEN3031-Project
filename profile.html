@@ -134,6 +134,7 @@
 
 </body>
 
+<script src="script.js"></script>
 
 <script>
 
@@ -141,8 +142,7 @@
     const angleOutput = document.querySelector("#angle-output");
 
     angleOutput.textContent = angleInput.value;
-    
-    /* TODO: make event listener work. */
+
     angleInput.addEventListener("input", (event) => {
         angleOutput.textContent = event.target.value;
     });
@@ -155,15 +155,15 @@
 
         sessionStorage.setItem('default', 'false');
 
-        const primary_bool = document.getElementById('color-primary-checkbox').checked
+        //const primary_bool = document.getElementById('color-primary-checkbox').checked
         let primary = document.getElementById('color-primary').value;
         sessionStorage.setItem('color-primary', primary);
 
-        const secondary_bool = document.getElementById('color-secondary-checkbox').checked
+        //const secondary_bool = document.getElementById('color-secondary-checkbox').checked
         let secondary = document.getElementById('color-secondary').value;
         sessionStorage.setItem('color-secondary', secondary);
 
-        const tertiary_bool = document.getElementById('color-tertiary-checkbox').checked;
+        //const tertiary_bool = document.getElementById('color-tertiary-checkbox').checked;
         let tertiary = document.getElementById('color-tertiary').value;
         sessionStorage.setItem('color-tertiary', tertiary);
 
@@ -181,7 +181,5 @@
         sessionStorage.setItem('default', 'true');
     }
 </script>
-
-<script src="script.js"></script>
 
 </html>

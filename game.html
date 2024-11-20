@@ -4,36 +4,114 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 
 
 <style>
 
+    .sceneBackground {
+        height: 100%;
+        width: 100%;
+        background-color: #b8a00070;
 
+        display: flex;
+        flex-flow: column;
+    }
+
+    .sceneCast {
+        position: absolute;
+        top: calc(10px + 12%);
+        width: 100%;
+    }
+
+    .characterPortrait {
+        height: 100%;
+        max-width: 30%;
+        object-fit: fill;
+
+        position: relative;
+
+
+        border: 2px dotted cornflowerblue;
+    }
+
+    .dialogueBox {
+        height: 30%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background-color: #8870a050;
+      }
+
+    .dialogueMenu {
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 15%;
+        width: 100%;
+
+        display: flex;
+        flex-flow: row;
+        justify-content: space-around;
+        align-items: center;
+        margin: auto;
+
+        background-color: #70588838;
+    }
+
+    .dialogueMenu button {
+        display: block;
+        width: 150px;
+        padding: 0;
+        margin: 0 auto;
+        font-size: 100%;
+        color: #fff;
+        background-color: #333;
+        border: 2px solid #fff;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
 
 </style>
 
 
 
 <body>
+<div class="sceneBackground">
 
+    <div class="sceneCast">
 
+        <img class="characterPortrait" alt="YOUR CHARACTER!!" src="media/characters/test-character.png"/>
+
+    </div>
+
+    <div class="dialogueBox">
+
+        <header class="dialogueMenu">
+            <button onclick="window.location.href='/'">Back to Menu</button>
+        </header>
+
+    </div>
+
+</div>
 
 </body>
 
 
+<script src="script.js"></script>
 
 <script>
 
-  function sceneChange() {
-
-  }
+  //function sceneChange() {
+  //
+  //}
 
 </script>
 
-<script src="script.js"></script>
 
 
 
