@@ -167,6 +167,9 @@
         let tertiary = document.getElementById('color-tertiary').value;
         sessionStorage.setItem('color-tertiary', tertiary);
 
+        let angle = document.getElementById('angle').value;
+        sessionStorage.setItem('angle', angle);
+
         let type = sessionStorage.getItem('background-type');
         if (undefined === type) {
             type = 'linear-gradient';
@@ -180,6 +183,11 @@
         document.body.style.backgroundImage = "none";
         sessionStorage.setItem('default', 'true');
     }
+
+    document.getElementById('color-primary').value = sessionStorage.getItem('color-primary');
+    document.getElementById('color-secondary').value = sessionStorage.getItem('color-secondary');
+    document.getElementById('color-tertiary').value = sessionStorage.getItem('color-tertiary');
 </script>
+
 
 </html>

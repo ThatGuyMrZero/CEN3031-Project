@@ -19,9 +19,9 @@ function signOut() {
     // storing things temporarily and this clears it
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('username');
-
+    window.location.href = '/';
     // auto refreshes to remove sign out button
-    location.reload();
+    //location.reload();
 }
 
 function login() {
@@ -154,6 +154,7 @@ function exitGame() {
 }
 
 function loadProfile() {
+    // TODO: Fix radial gradient so that it is not only affected by angle, but it also like... works lol
     if (sessionStorage.getItem('default') === 'true') {
         return;
     }
@@ -172,8 +173,9 @@ function loadProfile() {
     const primary = sessionStorage.getItem('color-primary');
     const secondary = sessionStorage.getItem('color-secondary');
     const tertiary = sessionStorage.getItem('color-tertiary');
+    const angle = sessionStorage.getItem('angle');
 
-    document.body.style.backgroundImage = type + "(" + primary + ", " + secondary + ", " + tertiary + ")";
+    document.body.style.backgroundImage = type + "(" + angle + "deg, " + primary + ", " + secondary + ", " + tertiary + ")";
 }
 
 // Initialize stuff when the page loads
