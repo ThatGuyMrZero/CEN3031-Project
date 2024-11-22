@@ -141,14 +141,14 @@ const server = http.createServer((req, res) => {
         });
 
         req.on('end', () => {
-            const { username, password } = JSON.parse(body);
+            const {username, password} = JSON.parse(body);
 
             const filePath = path.join(__dirname, 'users.json');
 
             fs.readFile(filePath, (err, data) => {
                 if (err) {
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: "Error reading user data" }));
+                    res.writeHead(500, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify({success: false, error: "Error reading user data"}));
                     return;
                 }
 
@@ -156,13 +156,31 @@ const server = http.createServer((req, res) => {
                 const user = users.find(u => u.username === username && u.password === password);
 
                 if (user) {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true }));
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify({success: true}));
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false }));
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify({success: false}));
                 }
             });
+        });
+    } else if (req.url.startsWith('/media/')) {
+        const filePath = path.join(__dirname, req.url);
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                res.end('File not found');
+            } else {
+                // Determine the file's content type
+                const ext = path.extname(filePath);
+                let contentType = 'application/octet-stream';
+                if (ext === '.png') contentType = 'image/png';
+                else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
+                else if (ext === '.gif') contentType = 'image/gif';
+
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(data);
+            }
         });
     // TODO: Write one for '/update-password' (see the updatePassword() function)
 } else {
