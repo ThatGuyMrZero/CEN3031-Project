@@ -191,7 +191,7 @@ document.body.innerHTML += `
         <button class="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
     </div>
     <div class="profilePicture">
-        <!--<img class="profileImage" src="/media/profile-pictures/tobias-funke.png" alt="Profile picture."/>-->
+        <img class="profileImage" src="/media/profile-pictures/tobias-funke.png" alt="Profile picture."/>
     </div>
 </header>
 `

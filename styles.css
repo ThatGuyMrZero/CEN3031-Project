@@ -28,7 +28,7 @@ header {
 header .profilePicture {
     background-image: url("/media/profile-pictures/tobias-funke.png");
     height: 100%;
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 .profileImage {
