@@ -2,9 +2,19 @@ const http = require('http');
 // fs means file system so this whole section requires you to have these things to follow the path
 const fs = require('fs');
 const path = require('path');
+const url = require('url');
 
-//initalize the server on localhost
+//initialize the server on localhost
 const server = http.createServer((req, res) => {
+
+    // Adapted from StackOverflow; https://stackoverflow.com/questions/70202109/how-do-we-display-css-and-pictures-through-node-js-without-express-js
+    // Parse the requested URL
+    const parsedUrl = url.parse(req.url, true);
+    // Get the pathname from the URL
+    const pathname = parsedUrl.pathname;
+    // Set the content type based on the file extension
+    const contentType = getContentType(pathname);
+
     if (req.url === '/' || req.url === '/index.html') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -53,7 +63,7 @@ const server = http.createServer((req, res) => {
                 res.writeHead(500);
                 res.end('Error loading CSS');
             } else {
-                res.writeHead(200, { 'Content-Type': 'text/css' });
+                res.writeHead(200, {'Content-Type': 'text/css'});
                 res.end(data);
             }
         });
@@ -93,7 +103,17 @@ const server = http.createServer((req, res) => {
                 res.writeHead(500);
                 res.end('Error loading options page');
             } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
+            }
+        });
+    } else if (req.url === '/media' + RegExp('.+')) {
+        fs.readFile(path.join(__dirname, string(req.url).replace('/', '')), (err, data, contentType) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading image');
+            } else {
+                res.writeHead(200, { 'Content-Type': contentType });
                 res.end(data);
             }
         });
@@ -188,6 +208,29 @@ const server = http.createServer((req, res) => {
         res.end('Page not found');
     }
 });
+
+// Adapted from StackOverflow: https://stackoverflow.com/questions/70202109/how-do-we-display-css-and-pictures-through-node-js-without-express-js
+// Function to determine the content type based on the file extension
+function getContentType(filePath) {
+    const extension = path.extname(filePath);
+    switch (extension) {
+        case '.html':
+            return 'text/html';
+        case '.css':
+            return 'text/css';
+        case '.js':
+            return 'text/javascript';
+        case '.jpg':
+        case '.jpeg':
+            return 'image/jpeg';
+        case '.png':
+            return 'image/png';
+        case '.gif':
+            return 'image/gif';
+        default:
+            return 'application/octet-stream';
+    }
+}
 
 server.listen(3000, () => {
     console.log('Server running at http://localhost:3000');

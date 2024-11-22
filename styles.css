@@ -26,16 +26,13 @@ header {
 }
 
 header .profilePicture {
-    background-color: #ffffff;
-    background-image: url(/media/profile-pictures/tobias-funke.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 50px;
+    background-image: url("/media/profile-pictures/tobias-funke.png");
+    height: 100%;
     margin-left: 10px;
 }
 
 .profileImage {
+    max-height: 100%;
 }
 
 #authButtonContainer {
