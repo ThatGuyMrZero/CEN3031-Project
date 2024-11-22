@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="menu">
+    <h2>Create Account</h2>
+    <label for="newUsername"></label><input type="text" placeholder="Username" id="newUsername" required>
+    <label for="newPassword"></label><input type="password" placeholder="Password" id="newPassword" required>
+    <label for="confirmPassword"></label><input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+    <button onclick="createAccount()">Create Account</button>
+    <button onclick="window.location.href='/'">Back to Menu</button>
+</div>
+
+<script src="script.js"></script>
+<script>
+    window.onload = loadSavedColor;
+</script>
+</body>
+</html>

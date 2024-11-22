@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<style>
+    #profileMenu {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    #colorOptions {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+    }
+
+    #colorSelection {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    #colorMenu {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    #colorMenu button {
+        margin: 10px 5px;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #808080;
+        min-width: 160px;
+        box-shadow: 8px 16px #00000033;
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content p {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content button:hover {
+        background-color: #a8a8a8;
+        cursor: pointer;
+    }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+</style>
+
+
+<body>
+
+<div class="section">
+
+    <div id="profileMenu" class="section">
+
+
+        <div id="colorOptions">
+
+            <div class="dropdown">
+                <button class="button">Background Type</button>
+                <div class="dropdown-content">
+                    <button onclick="pickType('solid')">Solid</button>
+                    <button onclick="pickType('linear-gradient')">Linear Gradient</button>
+                    <button onclick="pickType('radial-gradient')">Radial Gradient</button>
+                    <button onclick="pickType('repeating-linear-gradient')">Repeating Linear Gradient</button>
+                </div>
+            </div>
+
+            <div id="colorSelection" class="menu">
+
+                <h3>Include:</h3>
+                <div class="colorItem">
+                    <label for="color-primary-checkbox">Primary</label>
+                    <input type="checkbox" id="color-primary-checkbox" name="color-primary-checkbox" value="true" checked>
+                    <label for="color-primary">Primary color: </label><input type="color" value="#808890" id="color-primary">
+                </div>
+                <br>
+                <div class="colorItem">
+                    <label for="color-secondary-checkbox">Secondary:</label>
+                    <input type="checkbox" id="color-secondary-checkbox" name="color-secondary-checkbox" value="true" checked>
+                    <label for="color-secondary">Secondary color: </label><input type="color" value="#908880" id="color-secondary">
+                </div>
+                <br>
+                <div class="colorItem">
+                    <label for="color-tertiary-checkbox">Tertiary:</label>
+                    <input type="checkbox" id="color-tertiary-checkbox" name="color-tertiary-checkbox" value="true" checked>
+                    <label for="color-tertiary">Tertiary color: </label><input type="color" value="#38a050" id="color-tertiary">
+                </div>
+
+            </div>
+
+            <div class="">
+                <label for="angle">Angle:</label>
+                <input type="range" id="angle" name="angle" min="0" max="360" />
+                <output id="angle-output"></output>
+            </div>
+
+        </div>
+
+        <br>
+
+            <div id="colorMenu" >
+                <button onclick="setColors()">Set Colors</button>
+                <button onclick="colorDefault()">Default</button>
+            </div>
+
+
+    </div>
+
+    <button onclick="window.location.href='/'">Back to Menu</button>
+
+</div>
+
+</body>
+
+<script src="script.js"></script>
+
+<script>
+
+    const angleInput = document.querySelector("#angle");
+    const angleOutput = document.querySelector("#angle-output");
+
+    angleOutput.textContent = angleInput.value;
+
+    angleInput.addEventListener("input", (event) => {
+        angleOutput.textContent = event.target.value;
+    });
+
+    function pickType(type='linear-gradient') {
+        sessionStorage.setItem('background-type', type);
+    }
+
+    function setColors() {
+
+        sessionStorage.setItem('default', 'false');
+
+        //const primary_bool = document.getElementById('color-primary-checkbox').checked
+        let primary = document.getElementById('color-primary').value;
+        sessionStorage.setItem('color-primary', primary);
+
+        //const secondary_bool = document.getElementById('color-secondary-checkbox').checked
+        let secondary = document.getElementById('color-secondary').value;
+        sessionStorage.setItem('color-secondary', secondary);
+
+        //const tertiary_bool = document.getElementById('color-tertiary-checkbox').checked;
+        let tertiary = document.getElementById('color-tertiary').value;
+        sessionStorage.setItem('color-tertiary', tertiary);
+
+        let angle = document.getElementById('angle').value;
+        sessionStorage.setItem('angle', angle);
+
+        let type = sessionStorage.getItem('background-type');
+        if (undefined === type) {
+            type = 'linear-gradient';
+            sessionStorage.setItem('background-type', type);
+        }
+
+        location.replace(location.href);
+    }
+
+    function colorDefault() {
+        document.body.style.backgroundImage = "none";
+        sessionStorage.setItem('default', 'true');
+    }
+
+    document.getElementById('color-primary').value = sessionStorage.getItem('color-primary');
+    document.getElementById('color-secondary').value = sessionStorage.getItem('color-secondary');
+    document.getElementById('color-tertiary').value = sessionStorage.getItem('color-tertiary');
+</script>
+
+
+</html>
