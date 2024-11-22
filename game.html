@@ -26,6 +26,8 @@
         position: absolute;
         top: calc(10px + 12%);
         width: 100%;
+        bottom: 0;
+        object-fit: fill;
     }
 
     .characterPortrait {
@@ -34,8 +36,11 @@
         object-fit: fill;
 
         position: relative;
+        left: 10%;
 
-
+        background-image: url("media/characters/test-character.png");
+        background-repeat: no-repeat;
+        background-size: auto 100%;
         border: 2px dotted cornflowerblue;
     }
 
@@ -85,7 +90,8 @@
 
     <div class="sceneCast">
 
-        <img class="characterPortrait" alt="YOUR CHARACTER!!" src="media/characters/test-character.png"/>
+        <div class="characterPortrait"></div>
+        <!--<img class="characterPortrait" alt="YOUR CHARACTER!!" src="/media/characters/test-character.png"/>-->
 
     </div>
 
