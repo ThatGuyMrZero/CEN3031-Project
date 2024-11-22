@@ -97,16 +97,6 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    } else if (req.url === '/media' + RegExp('.+')) {
-        fs.readFile(path.join(__dirname, string(req.url).replace('/', '')), (err, data, contentType) => {
-            if (err) {
-                res.writeHead(500);
-                res.end('Error loading image');
-            } else {
-                res.writeHead(200, { 'Content-Type': contentType });
-                res.end(data);
-            }
-        });
     } else if (req.url === '/save-account' && req.method === 'POST') {
         let body = '';
 
