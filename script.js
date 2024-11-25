@@ -133,11 +133,27 @@ function updatePassword() {
             alert("An error occurred.");
         });
 }
+
+function newGame() {
+    if ( !confirm("This will overwrite any unsaved progress. Are you sure?") ) {
+        return;
+    }
+    window.location.href = '/game/1.html'
+    sessionStorage.setItem('game-page', '1');
+    //TODO: Start new profile
+}
+
 // TODO: Do game stuff
-function playGame() {
-    //alert("Starting the game...");
-    // Implement the play game functionality here
-    window.location.href = '/game';
+function playGame(add= 0) {
+    let gamePage = sessionStorage.getItem('game-page');
+    if (!gamePage) {
+        gamePage = 1;
+    }
+    else {
+        gamePage = Number(gamePage) + add;
+    }
+    sessionStorage.setItem('game-page', gamePage);
+    window.location.href = '/game/' + gamePage + '.html';
 }
 
 // TODO: UNIMPLEMENTED
@@ -183,6 +199,7 @@ window.addEventListener("load", () => {
     initializeAuthButtons();
     loadProfile();
 });
+
 
 document.body.innerHTML += `
 <header>

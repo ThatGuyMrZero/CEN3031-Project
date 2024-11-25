@@ -37,8 +37,8 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    } else if (req.url === '/game') {
-        fs.readFile(path.join(__dirname, 'game.html'), (err, data) => {
+    } else if (req.url.startsWith('/game/')) {
+        fs.readFile(path.join(__dirname, req.url), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 res.end('Error loading login page');
@@ -94,16 +94,6 @@ const server = http.createServer((req, res) => {
                 res.end('Error loading options page');
             } else {
                 res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(data);
-            }
-        });
-    } else if (req.url === '/media' + RegExp('.+')) {
-        fs.readFile(path.join(__dirname, string(req.url).replace('/', '')), (err, data, contentType) => {
-            if (err) {
-                res.writeHead(500);
-                res.end('Error loading image');
-            } else {
-                res.writeHead(200, { 'Content-Type': contentType });
                 res.end(data);
             }
         });
@@ -187,6 +177,7 @@ const server = http.createServer((req, res) => {
                 if (ext === '.png') contentType = 'image/png';
                 else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
                 else if (ext === '.gif') contentType = 'image/gif';
+                else if (ext === '.webp') contentType = 'image/webp';
 
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(data);

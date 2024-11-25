@@ -102,6 +102,78 @@ input[type="password"] {
     color: #fff;
 }
 
+
+/* For Game pages */
+
+.sceneBackground {
+    height: 100%;
+    width: 100%;
+    background-color: #b8a00070;
+
+    display: flex;
+    flex-flow: column;
+}
+
+.sceneCast {
+    position: absolute;
+    top: calc(10px + 12%);
+    width: 100%;
+    bottom: 0;
+    object-fit: fill;
+}
+
+.characterPortrait {
+    height: 100%;
+    max-width: 30%;
+    object-fit: fill;
+
+    position: relative;
+    left: 10%;
+
+    background-image: url("/media/characters/test-character.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+
+.dialogueBox {
+    height: 30%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: #585870b8;
+}
+
+.dialogueMenu {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 15%;
+    width: 100%;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+
+    background-color: #8888a088;
+}
+
+.dialogueMenu button {
+    display: block;
+    width: 150px;
+    padding: 0;
+    margin: 0 auto;
+    font-size: 100%;
+    color: #fff;
+    background-color: #333;
+    border: 2px solid #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* For Scott background options */
 .red {background-color: red}
 .orange {background-color: orange}
 .yellow {background-color: yellow}
