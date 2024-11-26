@@ -18,7 +18,8 @@
     #colorOptions {
         display: flex;
         flex-flow: row nowrap;
-        justify-content: center;
+        justify-content: space-around;
+        align-items: center;
     }
 
     #colorSelection {
@@ -65,6 +66,10 @@
         display: block;
     }
 
+    .colorItem {
+        align-content: space-between;
+    }
+
 </style>
 
 
@@ -81,7 +86,7 @@
         <div id="colorOptions">
 
             <div class="dropdown">
-                <button id="dropdown-header" class="button">Background Type</button>
+                <button id="dropdown-header" class="button"></button>
                 <div class="dropdown-content">
                     <button onclick="pickType('solid')">Solid</button>
                     <button onclick="pickType('linear-gradient')">Linear Gradient</button>
@@ -90,40 +95,69 @@
                 </div>
             </div>
 
+            <br>
+
             <div id="colorSelection" class="menu">
 
                 <h3>Include:</h3>
-                <div class="colorItem">
+
+                <div class="colorItem" id="itemPrimary">
+
                     <label for="color-primary">Primary color: </label>
                     <input type="color" value="#808890" id="color-primary">
+                    <div class="width-selector" id="selectorWidthPrimary">
+                        <label for="widthPrimary">Width:</label>
+                        <input type="range" id="widthPrimary" name="widthPrimary" min="0" max="100" />
+                        <output id="width-output-primary"></output>
+                    </div>
+
                 </div>
+
                 <br>
-                <div class="colorItem">
+
+                <div class="colorItem" id="itemSecondary">
+
                     <label for="color-secondary">Secondary color: </label>
                     <input type="color" value="#908880" id="color-secondary">
+                    <div class="width-selector" id="selectorWidthSecondary">
+                        <label for="widthSecondary">Width:</label>
+                        <input type="range" id="widthSecondary" name="widthSecondary" min="0" max="100" />
+                        <output id="width-output-secondary"></output>
+                    </div>
+
                 </div>
+
                 <br>
-                <div class="colorItem">
+
+                <div class="colorItem" id="itemTertiary">
+
+                    <div>
                     <label for="color-tertiary">Tertiary color: </label>
                     <input type="color" value="#38a050" id="color-tertiary">
+                    </div>
+
+                    <div class="width-selector" id="selectorWidthTertiary">
+                        <label for="widthTertiary">Width:</label>
+                        <input type="range" id="widthTertiary" name="widthTertiary" min="0" max="100" />
+                        <output id="width-output-tertiary"></output>
+                    </div>
+
                 </div>
 
-                <button onclick="currentColors()">Current Colors</button>
-
             </div>
 
-            <div class="angle-selector">
-                <label for="angle">Angle:</label>
-                <input type="range" id="angle" name="angle" min="0" max="360" />
-                <output id="angle-output"></output>
+            <div class="selector">
+                <div class="angle-selector" id="selectorAngle">
+                    <label for="angle">Angle:</label>
+                    <input type="range" id="angle" name="angle" min="0" max="360" />
+                    <output id="angle-output"></output>
+                </div>
             </div>
-
         </div>
 
         <br>
 
             <div id="colorMenu" >
-                <button onclick="setColors()">Set Colors</button>
                 <button onclick="colorDefault()">Default</button>
             </div>
 
@@ -144,111 +178,127 @@
 
 <script>
 
-    function pickType(type='linear-gradient') {
-        sessionStorage.setItem('background-type', type);
+    function changeDisplay(type = 'solid') {
 
-        sessionStorage.setItem('keep-colors', 'true');
-        window.location.reload();
+        const allDisplays = ['itemPrimary', 'itemSecondary', 'itemTertiary', 'selectorAngle'];
+        let nullDisplays = []
+
+        if ( type === 'solid' ) {
+            // TODO: Figure out why '#selectorWidthPrimary' isn't having display set to 'none'.
+            nullDisplays = ['itemSecondary', 'itemTertiary', 'selectorAngle', 'selectorWidthPrimary'];
+        }
+        else if ( type === 'linear-gradient' ) {
+
+            nullDisplays = [];
+        }
+        else if ( type === 'radial-gradient' ) {
+
+            nullDisplays = ['selectorAngle'];
+        }
+        else if ( type === 'repeating-linear-gradient' ) {
+
+            nullDisplays = [];
+        }
+
+        allDisplays.forEach( (display) => {
+            ( nullDisplays.includes(display) ) ?
+                document.querySelector('#' + display).style.display = 'none' :
+                document.querySelector('#' + display).style.display = 'flex'
+        });
+
     }
 
-    function currentColors() {
+    function pickType(bgType = 'solid') {
 
-        document.querySelector("#color-primary").value = sessionStorage.getItem('color-primary');
-        document.querySelector("#color-secondary").value = sessionStorage.getItem('color-secondary');
-        document.querySelector("#color-tertiary").value = sessionStorage.getItem('color-tertiary');
+        // This does not work if nested inside 'changeDisplay()'.
+        // This copy is necessary to update on button click. I'm not sure why, as the page eventually gets reloaded.
+        sessionStorage.setItem('background-type', bgType)
+        document.querySelector("#dropdown-header").innerHTML = "Background Type:<br>" + bgType;
 
+        // The promise doesn't have an effect, but it could, I guess.
+        // TODO: Figure out why this doesn't update the background, as 'setColors()' runs 'location.reload()'.
+        changeDisplay(bgType).then(setColors());
     }
 
     function setColors() {
 
         sessionStorage.setItem('default', 'false');
 
-        //const primary_bool = document.getElementById('color-primary-checkbox').checked
-        let primary = document.getElementById('color-primary').value;
-        sessionStorage.setItem('color-primary', primary);
-
-        //const secondary_bool = document.getElementById('color-secondary-checkbox').checked
-        let secondary = document.getElementById('color-secondary').value;
-        sessionStorage.setItem('color-secondary', secondary);
-
-        //const tertiary_bool = document.getElementById('color-tertiary-checkbox').checked;
-        let tertiary = document.getElementById('color-tertiary').value;
-        sessionStorage.setItem('color-tertiary', tertiary);
-
-        let angle = document.getElementById('angle').value;
-        sessionStorage.setItem('angle', angle);
-
-        let type = sessionStorage.getItem('background-type');
-        if (undefined === type) {
-            type = 'solid';
-            sessionStorage.setItem('background-type', type);
-        }
-
-        location.replace(location.href);
-    }
-
-    function colorDefault() {
-        document.body.style.backgroundImage = "none";
-        sessionStorage.setItem('default', 'true');
-
-        document.querySelector(".angle-selector").value = 180;
-        sessionStorage.setItem('angle', '180');
-
-        sessionStorage.setItem('background-type', 'solid');
-
         location.reload();
     }
 
-
-    let backgroundType = sessionStorage.getItem("background-type");
-    if (!backgroundType) {
-        backgroundType = 'solid';
-    }
+    // This copy is necessary to update on initial page load, but does not work on button press.
+    const backgroundType = sessionStorage.getItem('background-type');
     document.querySelector("#dropdown-header").innerHTML = "Background Type:<br>" + backgroundType;
-
+    // TODO: Figure out why this line causes color selector inputs to default.
+    changeDisplay(backgroundType);
 
     const primary = document.querySelector('#color-primary');
     const secondary = document.querySelector('#color-secondary');
     const tertiary = document.querySelector('#color-tertiary');
 
-    const oldColors = sessionStorage.getItem('keep-colors');
+    primary.value = sessionStorage.getItem('color-primary');
+    secondary.value = sessionStorage.getItem('color-secondary');
+    tertiary.value = sessionStorage.getItem('color-tertiary');
 
-    if ( !!sessionStorage.getItem('default') && !oldColors ) {
-        primary.value = sessionStorage.getItem('color-primary');
-        secondary.value = sessionStorage.getItem('color-secondary');
-        tertiary.value = sessionStorage.getItem('color-tertiary');
-    }
-    else if ( !!oldColors ) {
-        primary.value = sessionStorage.getItem('temp-primary');
-        secondary.value = sessionStorage.getItem('temp-secondary');
-        tertiary.value = sessionStorage.getItem('temp-tertiary');
-    }
-
-    primary.addEventListener('input', () => {
-        sessionStorage.setItem('temp-primary', primary.value);
+    primary.addEventListener('change', () => {
+        sessionStorage.setItem('color-primary', primary.value);
+        setColors();
     });
-    secondary.addEventListener('input', () => {
-        sessionStorage.setItem('temp-secondary', secondary.value);
+    secondary.addEventListener('change', () => {
+        sessionStorage.setItem('color-secondary', secondary.value);
+        setColors();
     });
-    tertiary.addEventListener('input', () => {
-        sessionStorage.setItem('temp-tertiary', tertiary.value);
+    tertiary.addEventListener('change', () => {
+        sessionStorage.setItem('color-tertiary', tertiary.value);
+        setColors();
     });
 
 
 
     const angleInput = document.querySelector("#angle");
 
-    const storedAngle = sessionStorage.getItem
-    if (storedAngle) {
-        angleInput.value = sessionStorage.getItem('angle');
-    }
+    angleInput.value = sessionStorage.getItem('angle');
 
     const angleOutput = document.querySelector("#angle-output");
 
-    angleOutput.textContent = angleInput.value;
+    angleOutput.textContent = angleInput.value + "\u00B0";
 
-    angleInput.addEventListener("input", (event) => {
-        angleOutput.textContent = event.target.value;
+    angleInput.addEventListener("change", (event) => {
+        sessionStorage.setItem('angle', event.target.value);
+        setColors();
+    });
+
+
+    const widthInputPrimary = document.querySelector("#widthPrimary");
+    const widthInputSecondary = document.querySelector("#widthSecondary");
+    const widthInputTertiary = document.querySelector("#widthTertiary");
+
+    widthInputPrimary.value = sessionStorage.getItem('width-primary');
+    widthInputSecondary.value = sessionStorage.getItem('width-secondary');
+    widthInputTertiary.value = sessionStorage.getItem('width-tertiary');
+
+    const widthOutputPrimary = document.querySelector("#width-output-primary");
+    const widthOutputSecondary = document.querySelector("#width-output-secondary");
+    const widthOutputTertiary = document.querySelector("#width-output-tertiary");
+
+    widthOutputPrimary.textContent = widthInputPrimary.value + "%";
+    widthOutputSecondary.textContent = widthInputSecondary.value + "%";
+    widthOutputTertiary.textContent = widthInputTertiary.value + "%";
+
+    // TODO: refactor every reference to colors with 'color1', 'color2', etc, for use with arrays.
+
+    widthInputPrimary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-primary', event.target.value);
+        setColors();
+    });
+    widthInputSecondary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-secondary', event.target.value);
+        setColors();
+    });
+    widthInputTertiary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-tertiary', event.target.value);
+        setColors();
     });
 
 </script>

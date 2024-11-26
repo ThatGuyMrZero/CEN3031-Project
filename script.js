@@ -19,9 +19,9 @@ function signOut() {
     // storing things temporarily and this clears it
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('username');
+    colorDefault();
     window.location.href = '/';
     // auto refreshes to remove sign out button
-    //location.reload();
 }
 
 function login() {
@@ -169,29 +169,73 @@ function exitGame() {
     // Implement the exit functionality here
 }
 
+function colorDefault() {
+
+    document.body.style.backgroundImage = "none";
+    sessionStorage.setItem('default', 'true');
+
+    sessionStorage.setItem('color-primary', '#808890')
+    sessionStorage.setItem('color-secondary', '#908880')
+    sessionStorage.setItem('color-tertiary', '#38a050')
+
+    sessionStorage.setItem('width-primary', 0);
+    sessionStorage.setItem('width-secondary', 50);
+    sessionStorage.setItem('width-tertiary', 100);
+
+    sessionStorage.setItem('angle', '180');
+
+    sessionStorage.setItem('background-type', 'solid');
+
+    location.reload();
+}
+
 function loadProfile() {
-    // TODO: Fix radial gradient so that it is not only affected by angle, but it also like... works lol
-    if (sessionStorage.getItem('default') === 'true') {
+
+    const defaultFlag = sessionStorage.getItem('default');
+    // Do nothing if default settings flag is set.
+    if ( defaultFlag === 'true' ) {
         return;
     }
-    if (!sessionStorage.getItem('isLoggedIn')) {
-        document.body.style.backgroundImage = "none";
-        sessionStorage.setItem('default', 'true');
+    // If fresh logon, set defaults.
+    else if ( defaultFlag === null ) {
+        colorDefault();
         return;
     }
 
-    const type = sessionStorage.getItem('background-type');
+    // Get relevant session variables.
+    let primary = sessionStorage.getItem('color-primary');
+    let secondary = sessionStorage.getItem('color-secondary');
+    let tertiary = sessionStorage.getItem('color-tertiary');
 
-    if (undefined === type) {
-        sessionStorage.setItem('background-type', 'linear-gradient');
+    let widthPrimary = sessionStorage.getItem('width-primary');
+    let widthSecondary = sessionStorage.getItem('width-secondary');
+    let widthTertiary = sessionStorage.getItem('width-tertiary');
+
+    let angle = sessionStorage.getItem('angle');
+
+    let type = sessionStorage.getItem('background-type');
+
+    // For each type of background, set it using the variables.
+    if ( type === 'solid' ) {
+
+        document.body.style.backgroundColor = primary;
+        document.body.style.backgroundImage = 'none';
     }
+    else if ( type === 'linear-gradient') {
 
-    const primary = sessionStorage.getItem('color-primary');
-    const secondary = sessionStorage.getItem('color-secondary');
-    const tertiary = sessionStorage.getItem('color-tertiary');
-    const angle = sessionStorage.getItem('angle');
+        document.body.style.backgroundImage = "linear-gradient(" + angle + "deg, " + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
+    else if ( type === 'radial-gradient') {
 
-    document.body.style.backgroundImage = type + "(" + angle + "deg, " + primary + ", " + secondary + ", " + tertiary + ")";
+        document.body.style.backgroundImage = "radial-gradient(" + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
+    else if ( type === 'repeating-linear-gradient') {
+
+        document.body.style.backgroundImage = "repeating-linear-gradient(" + angle + "deg, " + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
 }
 
 // Initialize stuff when the page loads

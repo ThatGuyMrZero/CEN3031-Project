@@ -20,7 +20,11 @@
 
 <script src="script.js"></script>
 <script>
-  window.onload = loadSavedColor;
+  document.querySelector('#password').addEventListener('keydown', (event) => {
+    if (event.keyCode === 13) {
+      login();
+    }
+  });
 </script>
 </body>
 </html>
