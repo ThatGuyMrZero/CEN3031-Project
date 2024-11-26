@@ -15,10 +15,10 @@
         flex-flow: column nowrap;
     }
 
+    /*TODO: Try to make #colorOptions grow to max width*/
     #colorOptions {
         display: flex;
         flex-flow: row nowrap;
-        justify-content: space-around;
         align-items: center;
     }
 
@@ -98,8 +98,6 @@
             <br>
 
             <div id="colorSelection" class="menu">
-
-                <h3>Include:</h3>
 
                 <div class="colorItem" id="itemPrimary">
 
@@ -226,6 +224,9 @@
 
         location.reload();
     }
+
+    const pictureSelector = document.querySelector('#pictureSelector');
+
 
     // This copy is necessary to update on initial page load, but does not work on button press.
     const backgroundType = sessionStorage.getItem('background-type');
