@@ -68,8 +68,8 @@ function createAccount() {
         alert("Username or password is required!");
         return;
     }
-    else if (password.length < 8) {
-        alert("Password must be at least 8 characters long!");
+    else if (password.length < 6) {
+        alert("Password must be at least 6 characters long!");
         return;
     }
 
@@ -105,8 +105,8 @@ function updatePassword() {
         alert("Passwords do not match!");
         return;
     }
-    else if (password.length < 8) {
-        alert("Password must be at least 8 characters long!");
+    else if (password.length < 6) {
+        alert("Password must be at least 6 characters long!");
         return;
     }
 
