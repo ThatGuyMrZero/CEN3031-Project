@@ -54,7 +54,6 @@ function login() {
         });
 }
 
-// TODO: Ensure that the user cannot enter blank fields for username and password
 function createAccount() {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('newPassword').value;
@@ -138,8 +137,8 @@ function newGame() {
     if ( !confirm("This will overwrite any unsaved progress. Are you sure?") ) {
         return;
     }
-    window.location.href = '/game/1.html'
-    sessionStorage.setItem('game-page', '1');
+    window.location.href = '/game/0.html'
+    sessionStorage.setItem('game-page', '0');
     //TODO: Start new profile
 }
 
@@ -147,7 +146,7 @@ function newGame() {
 function playGame(add= 0) {
     let gamePage = sessionStorage.getItem('game-page');
     if (!gamePage) {
-        gamePage = 1;
+        gamePage = 0;
     }
     else {
         gamePage = Number(gamePage) + add;
@@ -238,12 +237,23 @@ function loadProfile() {
     }
 }
 
+// Initialize profile picture on page load
+function loadProfilePicture() {
+    const savedPicture = sessionStorage.getItem('profile-picture');
+    if (savedPicture) {
+        const profileImageElement = document.querySelector('.profileImage');
+        if (profileImageElement) {
+            profileImageElement.src = savedPicture;
+        }
+    }
+}
+
 // Initialize stuff when the page loads
 window.addEventListener("load", () => {
     initializeAuthButtons();
     loadProfile();
+    loadProfilePicture();
 });
-
 
 document.body.innerHTML += `
 <header>
@@ -252,7 +262,7 @@ document.body.innerHTML += `
         <button class="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
     </div>
     <div class="profilePicture">
-        <img class="profileImage" src="/media/profile-pictures/tobias-funke.png" alt="Profile picture."/>
+        <img class="profileImage" src='/media/profile-pictures/tobias-funke.png' alt="Profile picture."/>
     </div>
 </header>
 `
