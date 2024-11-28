@@ -137,8 +137,8 @@ function newGame() {
     if ( !confirm("This will overwrite any unsaved progress. Are you sure?") ) {
         return;
     }
-    window.location.href = '/game/1.html'
-    sessionStorage.setItem('game-page', '1');
+    window.location.href = '/game/0.html'
+    sessionStorage.setItem('game-page', '0');
     //TODO: Start new profile
 }
 
@@ -146,7 +146,7 @@ function newGame() {
 function playGame(add= 0) {
     let gamePage = sessionStorage.getItem('game-page');
     if (!gamePage) {
-        gamePage = 1;
+        gamePage = 0;
     }
     else {
         gamePage = Number(gamePage) + add;

@@ -128,7 +128,7 @@ input[type="password"] {
     object-fit: fill;
 
     position: relative;
-    left: 10%;
+    left: 0;
 
     background-image: url("/media/characters/test-character.png");
     background-repeat: no-repeat;
