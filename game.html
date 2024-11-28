@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +38,21 @@
         background-size: cover;
         border: 2px solid cornflowerblue;
         border-radius: 10px;
+    }
+
+    .characterStats {
+        position: absolute;
+        top: 100px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        color: black;
+        max-width: 200px;
+        line-height: 1.5;
+        border: 1px solid #ccc;
     }
 
     .dialogueBox {
@@ -87,6 +101,7 @@
 <div class="sceneBackground">
     <div class="sceneCast">
         <div class="characterPortrait" id="characterPortrait"></div>
+        <div class="characterStats" id="characterStats"></div>
     </div>
 
     <div class="dialogueBox">
@@ -100,28 +115,50 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectedCharacter = localStorage.getItem("selectedCharacter");
+    document.addEventListener("DOMContentLoaded", loadGame);
 
-        if (selectedCharacter) {
-            const characterPortrait = document.getElementById("characterPortrait");
-            characterPortrait.style.backgroundImage = `url('media/characters/${selectedCharacter}.png')`;
-        } else {
-            console.error("going home.");
+    function loadGame() {
+        const selectedCharacter = localStorage.getItem('selectedCharacter');
+        const characterStats = localStorage.getItem('characterStats');
+
+        console.log("Selected Character:", selectedCharacter);
+        console.log("Character Stats (raw):", characterStats);
+
+        if (!selectedCharacter || !characterStats) {
+            alert("No character selected. Returning to menu.");
             window.location.href = '/';
+            return;
         }
 
-        showRandomMessage();
-    });
+        const stats = JSON.parse(characterStats);
 
-    const randomMessages = [
-        "theres recyclble trash in the wrong bin what do you think?",
-        "goodbye",
-        "1",
-        "2"
-    ];
+        const characterPortrait = document.getElementById('characterPortrait');
+        const statsElement = document.getElementById('characterStats');
+
+        const imagePath = `media/characters/${selectedCharacter}.png`;
+        console.log("Image path being set dynamically:", imagePath);
+
+        characterPortrait.style.backgroundImage = `url('${imagePath}')`;
+
+        statsElement.innerHTML = `
+            <p><strong>Strength:</strong> ${stats.strength}</p>
+            <p><strong>Dexterity:</strong> ${stats.dexterity}</p>
+            <p><strong>Constitution:</strong> ${stats.constitution}</p>
+            <p><strong>Intelligence:</strong> ${stats.intelligence}</p>
+            <p><strong>Wisdom:</strong> ${stats.wisdom}</p>
+            <p><strong>Charisma:</strong> ${stats.charisma}</p>
+        `;
+
+        showRandomMessage();
+    }
 
     function showRandomMessage() {
+        const randomMessages = [
+            "There's recyclable trash in the wrong bin. What do you think?",
+            "Goodbye.",
+            "The stars above twinkle in patterns. Can you interpret them?",
+            "You find a map on the ground. Where does it lead?"
+        ];
         const randomIndex = Math.floor(Math.random() * randomMessages.length);
         const dialogueText = document.getElementById("dialogueText");
         dialogueText.textContent = randomMessages[randomIndex];

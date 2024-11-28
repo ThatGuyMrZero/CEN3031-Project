@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Character Selection</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4a4a2f;
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
         .character-grid {
             display: flex;
             justify-content: center;
@@ -18,13 +30,12 @@
             border-radius: 10px;
             padding: 10px;
             width: 200px;
-            transition: transform 0.3s;
+            background-color: #333;
         }
 
         .character-option img {
             width: 150px;
             height: auto;
-            border: 2px solid #ccc;
             border-radius: 10px;
             margin-bottom: 10px;
             transition: transform 0.3s;
@@ -39,14 +50,9 @@
             text-align: left;
         }
 
-        .character-stats p {
-            margin: 5px 0;
-        }
-
         .choose-button {
             margin-top: 10px;
-            padding: 5px 10px;
-            font-size: 14px;
+            padding: 10px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -72,7 +78,7 @@
             <p><strong>Wisdom:</strong> <span id="char1-wisdom"></span></p>
             <p><strong>Charisma:</strong> <span id="char1-charisma"></span></p>
         </div>
-        <button class="choose-button" onclick="selectCharacter('character1')">Choose</button>
+        <button class="choose-button" onclick="selectCharacter('char1')">Choose</button>
     </div>
     <div class="character-option">
         <img src="media/characters/character2.png" alt="Character 2">
@@ -84,7 +90,7 @@
             <p><strong>Wisdom:</strong> <span id="char2-wisdom"></span></p>
             <p><strong>Charisma:</strong> <span id="char2-charisma"></span></p>
         </div>
-        <button class="choose-button" onclick="selectCharacter('character2')">Choose</button>
+        <button class="choose-button" onclick="selectCharacter('char2')">Choose</button>
     </div>
     <div class="character-option">
         <img src="media/characters/character3.png" alt="Character 3">
@@ -96,7 +102,7 @@
             <p><strong>Wisdom:</strong> <span id="char3-wisdom"></span></p>
             <p><strong>Charisma:</strong> <span id="char3-charisma"></span></p>
         </div>
-        <button class="choose-button" onclick="selectCharacter('character3')">Choose</button>
+        <button class="choose-button" onclick="selectCharacter('char3')">Choose</button>
     </div>
 </div>
 <script>
@@ -105,37 +111,37 @@
     }
 
     function populateStats() {
-        document.getElementById('char1-strength').textContent = getRandomAttribute();
-        document.getElementById('char1-dexterity').textContent = getRandomAttribute();
-        document.getElementById('char1-constitution').textContent = getRandomAttribute();
-        document.getElementById('char1-intelligence').textContent = getRandomAttribute();
-        document.getElementById('char1-wisdom').textContent = getRandomAttribute();
-        document.getElementById('char1-charisma').textContent = getRandomAttribute();
+        const characters = ['char1', 'char2', 'char3'];
+        characters.forEach(char => {
+            document.getElementById(`${char}-strength`).textContent = getRandomAttribute();
+            document.getElementById(`${char}-dexterity`).textContent = getRandomAttribute();
+            document.getElementById(`${char}-constitution`).textContent = getRandomAttribute();
+            document.getElementById(`${char}-intelligence`).textContent = getRandomAttribute();
+            document.getElementById(`${char}-wisdom`).textContent = getRandomAttribute();
+            document.getElementById(`${char}-charisma`).textContent = getRandomAttribute();
+        });
+    }
 
-        // Character 2
-        document.getElementById('char2-strength').textContent = getRandomAttribute();
-        document.getElementById('char2-dexterity').textContent = getRandomAttribute();
-        document.getElementById('char2-constitution').textContent = getRandomAttribute();
-        document.getElementById('char2-intelligence').textContent = getRandomAttribute();
-        document.getElementById('char2-wisdom').textContent = getRandomAttribute();
-        document.getElementById('char2-charisma').textContent = getRandomAttribute();
+    function selectCharacter(character) {
+        const stats = {
+            strength: document.getElementById(`${character}-strength`).textContent,
+            dexterity: document.getElementById(`${character}-dexterity`).textContent,
+            constitution: document.getElementById(`${character}-constitution`).textContent,
+            intelligence: document.getElementById(`${character}-intelligence`).textContent,
+            wisdom: document.getElementById(`${character}-wisdom`).textContent,
+            charisma: document.getElementById(`${character}-charisma`).textContent
+        };
 
-        // Character 3
-        document.getElementById('char3-strength').textContent = getRandomAttribute();
-        document.getElementById('char3-dexterity').textContent = getRandomAttribute();
-        document.getElementById('char3-constitution').textContent = getRandomAttribute();
-        document.getElementById('char3-intelligence').textContent = getRandomAttribute();
-        document.getElementById('char3-wisdom').textContent = getRandomAttribute();
-        document.getElementById('char3-charisma').textContent = getRandomAttribute();
+        console.log("Selected Character:", character);
+        console.log("Stats:", stats);
+
+        localStorage.setItem("selectedCharacter", character);
+        localStorage.setItem("characterStats", JSON.stringify(stats));
+
+        window.location.href = '/game';
     }
 
     window.onload = populateStats;
-
-    function selectCharacter(character) {
-        alert(`You have selected ${character}!`);
-        localStorage.setItem('selectedCharacter', character);
-        window.location.href = '/game';
-    }
 </script>
 </body>
 </html>
