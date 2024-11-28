@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,39 +8,37 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-
-
 <style>
-
     .sceneBackground {
         height: 100%;
         width: 100%;
         background-color: #b8a00070;
-
         display: flex;
         flex-flow: column;
     }
 
     .sceneCast {
         position: absolute;
-        top: calc(10px + 12%);
+        top: 0;
+        left: 0;
         width: 100%;
         bottom: 0;
         object-fit: fill;
     }
 
     .characterPortrait {
-        height: 100%;
-        max-width: 30%;
-        object-fit: fill;
+        height: 80px;
+        width: 80px;
+        object-fit: contain;
 
-        position: relative;
-        left: 10%;
+        position: absolute;
+        top: 10px;
+        left: 10px;
 
-        background-image: url("media/characters/test-character.png");
         background-repeat: no-repeat;
-        background-size: auto 100%;
-        border: 2px dotted cornflowerblue;
+        background-size: cover;
+        border: 2px solid cornflowerblue;
+        border-radius: 10px;
     }
 
     .dialogueBox {
@@ -50,7 +47,13 @@
         position: absolute;
         bottom: 0;
         background-color: #8870a050;
-      }
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
 
     .dialogueMenu {
         position: relative;
@@ -58,13 +61,11 @@
         left: 0;
         height: 15%;
         width: 100%;
-
         display: flex;
         flex-flow: row;
         justify-content: space-around;
         align-items: center;
         margin: auto;
-
         background-color: #70588838;
     }
 
@@ -80,45 +81,51 @@
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
     }
-
 </style>
-
-
 
 <body>
 <div class="sceneBackground">
-
     <div class="sceneCast">
-
-        <div class="characterPortrait"></div>
-        <!--<img class="characterPortrait" alt="YOUR CHARACTER!!" src="/media/characters/test-character.png"/>-->
-
+        <div class="characterPortrait" id="characterPortrait"></div>
     </div>
 
     <div class="dialogueBox">
-
+        <div id="dialogueText"></div>
         <header class="dialogueMenu">
             <button onclick="window.location.href='/'">Back to Menu</button>
+            <button onclick="showRandomMessage()">Next</button>
         </header>
-
     </div>
-
 </div>
-
 </body>
 
-
-<script src="script.js"></script>
-
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectedCharacter = localStorage.getItem("selectedCharacter");
 
-  //function sceneChange() {
-  //
-  //}
+        if (selectedCharacter) {
+            const characterPortrait = document.getElementById("characterPortrait");
+            characterPortrait.style.backgroundImage = `url('media/characters/${selectedCharacter}.png')`;
+        } else {
+            console.error("going home.");
+            window.location.href = '/';
+        }
 
+        showRandomMessage();
+    });
+
+    const randomMessages = [
+        "theres recyclble trash in the wrong bin what do you think?",
+        "goodbye",
+        "1",
+        "2"
+    ];
+
+    function showRandomMessage() {
+        const randomIndex = Math.floor(Math.random() * randomMessages.length);
+        const dialogueText = document.getElementById("dialogueText");
+        dialogueText.textContent = randomMessages[randomIndex];
+    }
 </script>
-
-
-
 
 </html>

@@ -137,14 +137,9 @@ function updatePassword() {
 function playGame() {
     //alert("Starting the game...");
     // Implement the play game functionality here
-    window.location.href = '/game';
+    window.location.href = '/character-selection';
 }
 
-// TODO: UNIMPLEMENTED
-function showOptions() {
-    alert("Opening options...");
-    // Implement the options functionality here
-}
 
 function exitGame() {
     alert("Exiting the game, thanks for playing! You may now close this window at any time.");

@@ -202,6 +202,33 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
+    } else if (req.url === '/character-selection') {
+        fs.readFile(path.join(__dirname, 'character-selection.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading character selection page');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
+    } else if (req.url.startsWith('/media/')) {
+        const filePath = path.join(__dirname, req.url);
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                res.end('File not found');
+            } else {
+                const ext = path.extname(filePath);
+                let contentType = 'application/octet-stream';
+                if (ext === '.png') contentType = 'image/png';
+                else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
+                else if (ext === '.gif') contentType = 'image/gif';
+
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(data);
+            }
+        });
     // TODO: Write one for '/update-password' (see the updatePassword() function)
 } else {
         res.writeHead(404);
