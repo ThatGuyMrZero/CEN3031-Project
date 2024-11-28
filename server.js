@@ -179,8 +179,47 @@ const server = http.createServer((req, res) => {
                 else if (ext === '.gif') contentType = 'image/gif';
                 else if (ext === '.webp') contentType = 'image/webp';
 
-                res.writeHead(200, { 'Content-Type': contentType });
+                res.writeHead(200, {'Content-Type': contentType});
                 res.end(data);
+            }
+        });
+    } else if (req.url === '/profile-pictures' && req.method === 'GET') {
+        const imageDir = path.join(__dirname, 'media/profile-pictures');
+        fs.readdir(imageDir, (err, files) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error reading directory');
+                return;
+            }
+            const images = files.filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(images));
+        });
+    } else if (req.url === '/save-profile-picture' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => (body += chunk));
+        req.on('end', () => {
+            const { image } = JSON.parse(body);
+            fs.writeFileSync('chosen-profile-picture.txt', image, 'utf8');
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('Profile picture saved');
+        });
+    } else if (req.url === '/profile' && req.method === 'GET') {
+        const chosenPicture = fs.existsSync('chosen-profile-picture.txt')
+            ? fs.readFileSync('chosen-profile-picture.txt', 'utf8')
+            : 'tobias-funke.png';
+
+        fs.readFile(path.join(__dirname, 'profile.html'), 'utf8', (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading page');
+            } else {
+                const updatedHtml = data.replace(
+                    '/media/profile-pictures/tobias-funke.png',
+                    `/media/profile-pictures/${chosenPicture}`
+                );
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(updatedHtml);
             }
         });
     // TODO: Write one for '/update-password' (see the updatePassword() function)
