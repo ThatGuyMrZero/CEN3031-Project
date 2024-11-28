@@ -168,6 +168,17 @@
         }
     })
 
+    document.getElementById("no-button").addEventListener('click', function() {
+        const buttonText = this.innerText;
+        if (buttonText === correctAnswer) {
+            alert("Correct! You earned 1 point!");
+            playGame(1);
+        } else {
+            alert("Sorry, that was incorrect.");
+            playGame(1);
+        }
+    })
+
     window.addEventListener('load', () => {
         showRandomQuestion();
     })
