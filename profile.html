@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<style>
+    #profileMenu {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    #colorOptions {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    #colorSelection {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    #colorMenu {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    #colorMenu button {
+        margin: 10px 5px;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #808080;
+        min-width: 160px;
+        box-shadow: 8px 16px #00000033;
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content p {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content button:hover {
+        background-color: #a8a8a8;
+        cursor: pointer;
+    }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .colorItem {
+        align-content: space-between;
+    }
+
+    #profilePictures {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+    }
+
+    .profilePictureOption {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: border-color 0.3s;
+    }
+
+    #picture-selector {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    #picture-selector button {
+        padding: 10px 20px;
+        margin: 5px;
+        text-align: center;
+    }
+</style>
+
+
+<body>
+
+<div class="section">
+
+    <div id="profileMenu" class="section">
+
+        <div id="picture-selector">
+            <button onclick="chooseProfilePicture('/media/profile-pictures/2190876.png')">Profile 1</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/32638047_7806689.jpg')">Profile 2</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/49163832326_7977b0c3cb_o.jpg')">Profile 3</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/49169845933_5084b51438_o.jpg')">Profile 4</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/49178515143_2f99835b81_o.jpg')">Profile 5</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/49195303372_cf415c4363_o.jpg')">Profile 6</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/digital-art-style-mental-health-day-awareness-illustration.jpg')">Profile 7</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/owl-7633528_1280.png')">Profile 8</button>
+            <button onclick="chooseProfilePicture('/media/profile-pictures/tobias-funke.png')">Profile 9</button>
+        </div>
+            <div id="profilePictures"></div>
+
+<!--            <header>-->
+<!--                <div class="profilePicture" id="currentProfilePicture"-->
+<!--                     style="background-image: url('/media/profile-pictures/tobias-funke.png');">-->
+<!--                </div>-->
+<!--            </header>-->
+<!--        </div>-->
+
+        <div id="colorOptions">
+
+            <div class="dropdown">
+                <button id="dropdown-header" class="button"></button>
+                <div class="dropdown-content">
+                    <button onclick="pickType('solid')">Solid</button>
+                    <button onclick="pickType('linear-gradient')">Linear Gradient</button>
+                    <button onclick="pickType('radial-gradient')">Radial Gradient</button>
+                    <button onclick="pickType('repeating-linear-gradient')">Repeating Linear Gradient</button>
+                </div>
+            </div>
+
+            <br>
+
+            <div id="colorSelection" class="menu">
+
+                <h3>Include:</h3>
+
+                <div class="colorItem" id="itemPrimary">
+
+                    <label for="color-primary">Primary color: </label>
+                    <input type="color" value="#808890" id="color-primary">
+                    <div class="width-selector" id="selectorWidthPrimary">
+                        <label for="widthPrimary">Width:</label>
+                        <input type="range" id="widthPrimary" name="widthPrimary" min="0" max="100" />
+                        <output id="width-output-primary"></output>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="colorItem" id="itemSecondary">
+
+                    <label for="color-secondary">Secondary color: </label>
+                    <input type="color" value="#908880" id="color-secondary">
+                    <div class="width-selector" id="selectorWidthSecondary">
+                        <label for="widthSecondary">Width:</label>
+                        <input type="range" id="widthSecondary" name="widthSecondary" min="0" max="100" />
+                        <output id="width-output-secondary"></output>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="colorItem" id="itemTertiary">
+
+                    <div>
+                    <label for="color-tertiary">Tertiary color: </label>
+                    <input type="color" value="#38a050" id="color-tertiary">
+                    </div>
+
+                    <div class="width-selector" id="selectorWidthTertiary">
+                        <label for="widthTertiary">Width:</label>
+                        <input type="range" id="widthTertiary" name="widthTertiary" min="0" max="100" />
+                        <output id="width-output-tertiary"></output>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="selector">
+                <div class="angle-selector" id="selectorAngle">
+                    <label for="angle">Angle:</label>
+                    <input type="range" id="angle" name="angle" min="0" max="360" />
+                    <output id="angle-output"></output>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+            <div id="colorMenu" >
+                <button onclick="colorDefault()">Default</button>
+            </div>
+
+
+    </div>
+
+    <div class="section">
+        <h3>Back to:</h3>
+        <button onclick="window.location.href='/'">Menu</button>
+        <button onclick=playGame()>Game</button>
+    </div>
+
+</div>
+
+</body>
+
+<script src="script.js"></script>
+
+<script>
+
+    function changeDisplay(type = 'solid') {
+
+        const allDisplays = ['itemPrimary', 'itemSecondary', 'itemTertiary', 'selectorAngle'];
+        let nullDisplays = []
+
+        if ( type === 'solid' ) {
+            // TODO: Figure out why '#selectorWidthPrimary' isn't having display set to 'none'.
+            nullDisplays = ['itemSecondary', 'itemTertiary', 'selectorAngle', 'selectorWidthPrimary'];
+        }
+        else if ( type === 'linear-gradient' ) {
+
+            nullDisplays = [];
+        }
+        else if ( type === 'radial-gradient' ) {
+
+            nullDisplays = ['selectorAngle'];
+        }
+        else if ( type === 'repeating-linear-gradient' ) {
+
+            nullDisplays = [];
+        }
+
+        allDisplays.forEach( (display) => {
+            ( nullDisplays.includes(display) ) ?
+                document.querySelector('#' + display).style.display = 'none' :
+                document.querySelector('#' + display).style.display = 'flex'
+        });
+
+    }
+
+    function pickType(bgType = 'solid') {
+
+        // This does not work if nested inside 'changeDisplay()'.
+        // This copy is necessary to update on button click. I'm not sure why, as the page eventually gets reloaded.
+        sessionStorage.setItem('background-type', bgType)
+        document.querySelector("#dropdown-header").innerHTML = "Background Type:<br>" + bgType;
+
+        // The promise doesn't have an effect, but it could, I guess.
+        // TODO: Figure out why this doesn't update the background, as 'setColors()' runs 'location.reload()'.
+        changeDisplay(bgType).then(setColors());
+    }
+
+    function setColors() {
+
+        sessionStorage.setItem('default', 'false');
+
+        location.reload();
+    }
+
+    // This copy is necessary to update on initial page load, but does not work on button press.
+    const backgroundType = sessionStorage.getItem('background-type');
+    document.querySelector("#dropdown-header").innerHTML = "Background Type:<br>" + backgroundType;
+    // TODO: Figure out why this line causes color selector inputs to default.
+    changeDisplay(backgroundType);
+
+    const primary = document.querySelector('#color-primary');
+    const secondary = document.querySelector('#color-secondary');
+    const tertiary = document.querySelector('#color-tertiary');
+
+    primary.value = sessionStorage.getItem('color-primary');
+    secondary.value = sessionStorage.getItem('color-secondary');
+    tertiary.value = sessionStorage.getItem('color-tertiary');
+
+    primary.addEventListener('change', () => {
+        sessionStorage.setItem('color-primary', primary.value);
+        setColors();
+    });
+    secondary.addEventListener('change', () => {
+        sessionStorage.setItem('color-secondary', secondary.value);
+        setColors();
+    });
+    tertiary.addEventListener('change', () => {
+        sessionStorage.setItem('color-tertiary', tertiary.value);
+        setColors();
+    });
+
+
+
+    const angleInput = document.querySelector("#angle");
+
+    angleInput.value = sessionStorage.getItem('angle');
+
+    const angleOutput = document.querySelector("#angle-output");
+
+    angleOutput.textContent = angleInput.value + "\u00B0";
+
+    angleInput.addEventListener("change", (event) => {
+        sessionStorage.setItem('angle', event.target.value);
+        setColors();
+    });
+
+
+    const widthInputPrimary = document.querySelector("#widthPrimary");
+    const widthInputSecondary = document.querySelector("#widthSecondary");
+    const widthInputTertiary = document.querySelector("#widthTertiary");
+
+    widthInputPrimary.value = sessionStorage.getItem('width-primary');
+    widthInputSecondary.value = sessionStorage.getItem('width-secondary');
+    widthInputTertiary.value = sessionStorage.getItem('width-tertiary');
+
+    const widthOutputPrimary = document.querySelector("#width-output-primary");
+    const widthOutputSecondary = document.querySelector("#width-output-secondary");
+    const widthOutputTertiary = document.querySelector("#width-output-tertiary");
+
+    widthOutputPrimary.textContent = widthInputPrimary.value + "%";
+    widthOutputSecondary.textContent = widthInputSecondary.value + "%";
+    widthOutputTertiary.textContent = widthInputTertiary.value + "%";
+
+    // TODO: refactor every reference to colors with 'color1', 'color2', etc, for use with arrays.
+
+    widthInputPrimary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-primary', event.target.value);
+        setColors();
+    });
+    widthInputSecondary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-secondary', event.target.value);
+        setColors();
+    });
+    widthInputTertiary.addEventListener("change", (event) => {
+        sessionStorage.setItem('width-tertiary', event.target.value);
+        setColors();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProfilePictures();
+    });
+
+    function loadProfilePictures() {
+        // Fetch the available profile pictures from the server
+        fetch('/profile-pictures')
+            .then(response => response.json())
+            .then(images => {
+                const profilePicturesDiv = document.getElementById('profilePictures');
+                profilePicturesDiv.innerHTML = ''; // Clear previous content
+
+                images.forEach(image => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `/media/profile-pictures/${image}`;
+                    imgElement.alt = image;
+                    imgElement.classList.add('profilePictureOption');
+                    imgElement.addEventListener('click', () => {
+                        selectProfilePicture(image);
+                    });
+                    profilePicturesDiv.appendChild(imgElement);
+                });
+            });
+    }
+
+    function selectProfilePicture(image) {
+        // Save the selected image to the server
+        fetch('/save-profile-picture', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image }),
+        }).then(response => {
+            if (response.ok) {
+                // alert('Profile picture updated!');
+                document.getElementById('currentProfilePicture').style.backgroundImage =
+                    `url('/media/profile-pictures/${image}')`;
+            }
+        });
+    }
+
+    // Function to handle profile picture selection
+    function chooseProfilePicture(profilePictureURL) {
+        // Save the chosen picture URL to sessionStorage
+        sessionStorage.setItem('profile-picture', profilePictureURL);
+
+        // Immediately update the profile picture displayed on the page
+        const profileImageElement = document.querySelector('.profileImage');
+        if (profileImageElement) {
+            profileImageElement.src = profilePictureURL;
+        } else {
+            console.error("Profile image element not found.");
+        }
+    }
+
+    // Initialize profile picture on page load
+    function loadProfilePicture() {
+        const savedPicture = sessionStorage.getItem('profile-picture');
+        if (savedPicture) {
+            const profileImageElement = document.querySelector('.profileImage');
+            if (profileImageElement) {
+                profileImageElement.src = savedPicture;
+            }
+        }
+    }
+
+    // Call this function when the page loads
+    window.addEventListener('load', () => {
+        loadProfilePicture();
+    });
+
+</script>
+
+
+</html>

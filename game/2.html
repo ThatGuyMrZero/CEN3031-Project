@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        #character-display {
+            text-align: center;
+            margin: 50px auto;
+            max-width: 400px;
+        }
+
+        #character-image {
+            width: 200px;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #character-stats {
+            font-size: 16px;
+            text-align: left;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+<div id="character-display">
+    <img id="character-image" src="" alt="Selected Character">
+    <div id="character-stats"></div>
+</div>
+<div class="sceneBackground">
+
+    <div class="sceneCast">
+
+<!--        <div class="characterPortrait"></div>-->
+
+    </div>
+
+    <div class="dialogueBox">
+
+        <header class="dialogueMenu">
+            <button onclick="window.location.href='/'">Back to Menu</button>
+            <button onclick="playGame(1)">Continue</button>
+        </header>
+
+    </div>
+
+</div>
+
+</body>
+
+
+<script src="../script.js"></script>
+
+<script>
+    // Retrieve the selected character from sessionStorage
+    const selectedCharacter = sessionStorage.getItem('selectedCharacter');
+
+    if (!selectedCharacter) {
+        // If no character is selected, redirect back to selection page
+        alert('No character selected. Redirecting to character selection.');
+        window.location.href = '/game/0.html';
+    } else {
+        // Map the character ID to its image and stats
+        const characterMap = {
+            character1: {
+                image: '/media/characters/character1.png',
+                stats: `
+          <strong>Strength:</strong> ${sessionStorage.getItem('char1-strength')}<br>
+          <strong>Dexterity:</strong> ${sessionStorage.getItem('char1-dexterity')}<br>
+          <strong>Constitution:</strong> ${sessionStorage.getItem('char1-constitution')}<br>
+          <strong>Intelligence:</strong> ${sessionStorage.getItem('char1-intelligence')}<br>
+          <strong>Wisdom:</strong> ${sessionStorage.getItem('char1-wisdom')}<br>
+          <strong>Charisma:</strong> ${sessionStorage.getItem('char1-charisma')}
+        `,
+            },
+            character2: {
+                image: '/media/characters/character2.png',
+                stats: `
+          <strong>Strength:</strong> ${sessionStorage.getItem('char2-strength')}<br>
+          <strong>Dexterity:</strong> ${sessionStorage.getItem('char2-dexterity')}<br>
+          <strong>Constitution:</strong> ${sessionStorage.getItem('char2-constitution')}<br>
+          <strong>Intelligence:</strong> ${sessionStorage.getItem('char2-intelligence')}<br>
+          <strong>Wisdom:</strong> ${sessionStorage.getItem('char2-wisdom')}<br>
+          <strong>Charisma:</strong> ${sessionStorage.getItem('char2-charisma')}
+        `,
+            },
+            character3: {
+                image: '/media/characters/character3.png',
+                stats: `
+          <strong>Strength:</strong> ${sessionStorage.getItem('char3-strength')}<br>
+          <strong>Dexterity:</strong> ${sessionStorage.getItem('char3-dexterity')}<br>
+          <strong>Constitution:</strong> ${sessionStorage.getItem('char3-constitution')}<br>
+          <strong>Intelligence:</strong> ${sessionStorage.getItem('char3-intelligence')}<br>
+          <strong>Wisdom:</strong> ${sessionStorage.getItem('char3-wisdom')}<br>
+          <strong>Charisma:</strong> ${sessionStorage.getItem('char3-charisma')}
+        `,
+            },
+        };
+
+        // Get character data
+        const characterData = characterMap[selectedCharacter];
+
+        if (characterData) {
+            // Set character image
+            document.getElementById('character-image').src = characterData.image;
+
+            // Set character stats
+            document.getElementById('character-stats').innerHTML = characterData.stats;
+        }
+    }
+    //function sceneChange() {
+    //
+    //}
+
+
+
+</script>
+
+
+
+
+</html>
