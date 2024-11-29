@@ -19,9 +19,9 @@ function signOut() {
     // storing things temporarily and this clears it
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('username');
+    colorDefault();
     window.location.href = '/';
     // auto refreshes to remove sign out button
-    //location.reload();
 }
 
 function login() {
@@ -54,7 +54,6 @@ function login() {
         });
 }
 
-// TODO: Ensure that the user cannot enter blank fields for username and password
 function createAccount() {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('newPassword').value;
@@ -68,8 +67,8 @@ function createAccount() {
         alert("Username or password is required!");
         return;
     }
-    else if (password.length < 8) {
-        alert("Password must be at least 8 characters long!");
+    else if (password.length < 6) {
+        alert("Password must be at least 6 characters long!");
         return;
     }
 
@@ -105,8 +104,8 @@ function updatePassword() {
         alert("Passwords do not match!");
         return;
     }
-    else if (password.length < 8) {
-        alert("Password must be at least 8 characters long!");
+    else if (password.length < 6) {
+        alert("Password must be at least 6 characters long!");
         return;
     }
 
@@ -133,11 +132,27 @@ function updatePassword() {
             alert("An error occurred.");
         });
 }
+
+function newGame() {
+    if ( !confirm("This will overwrite any unsaved progress. Are you sure?") ) {
+        return;
+    }
+    window.location.href = '/game/0.html'
+    sessionStorage.setItem('game-page', '0');
+    //TODO: Start new profile
+}
+
 // TODO: Do game stuff
-function playGame() {
-    //alert("Starting the game...");
-    // Implement the play game functionality here
-    window.location.href = '/game';
+function playGame(add= 0) {
+    let gamePage = sessionStorage.getItem('game-page');
+    if (!gamePage) {
+        gamePage = 0;
+    }
+    else {
+        gamePage = Number(gamePage) + add;
+    }
+    sessionStorage.setItem('game-page', gamePage);
+    window.location.href = '/game/' + gamePage + '.html';
 }
 
 // TODO: UNIMPLEMENTED
@@ -153,35 +168,91 @@ function exitGame() {
     // Implement the exit functionality here
 }
 
+function colorDefault() {
+
+    document.body.style.backgroundImage = "none";
+    sessionStorage.setItem('default', 'true');
+
+    sessionStorage.setItem('color-primary', '#808890')
+    sessionStorage.setItem('color-secondary', '#908880')
+    sessionStorage.setItem('color-tertiary', '#38a050')
+
+    sessionStorage.setItem('width-primary', 0);
+    sessionStorage.setItem('width-secondary', 50);
+    sessionStorage.setItem('width-tertiary', 100);
+
+    sessionStorage.setItem('angle', '180');
+
+    sessionStorage.setItem('background-type', 'solid');
+
+    location.reload();
+}
+
 function loadProfile() {
-    // TODO: Fix radial gradient so that it is not only affected by angle, but it also like... works lol
-    if (sessionStorage.getItem('default') === 'true') {
+
+    const defaultFlag = sessionStorage.getItem('default');
+    // Do nothing if default settings flag is set.
+    if ( defaultFlag === 'true' ) {
         return;
     }
-    if (!sessionStorage.getItem('isLoggedIn')) {
-        document.body.style.backgroundImage = "none";
-        sessionStorage.setItem('default', 'true');
+    // If fresh logon, set defaults.
+    else if ( defaultFlag === null ) {
+        colorDefault();
         return;
     }
 
-    const type = sessionStorage.getItem('background-type');
+    // Get relevant session variables.
+    let primary = sessionStorage.getItem('color-primary');
+    let secondary = sessionStorage.getItem('color-secondary');
+    let tertiary = sessionStorage.getItem('color-tertiary');
 
-    if (undefined === type) {
-        sessionStorage.setItem('background-type', 'linear-gradient');
+    let widthPrimary = sessionStorage.getItem('width-primary');
+    let widthSecondary = sessionStorage.getItem('width-secondary');
+    let widthTertiary = sessionStorage.getItem('width-tertiary');
+
+    let angle = sessionStorage.getItem('angle');
+
+    let type = sessionStorage.getItem('background-type');
+
+    // For each type of background, set it using the variables.
+    if ( type === 'solid' ) {
+
+        document.body.style.backgroundColor = primary;
+        document.body.style.backgroundImage = 'none';
     }
+    else if ( type === 'linear-gradient') {
 
-    const primary = sessionStorage.getItem('color-primary');
-    const secondary = sessionStorage.getItem('color-secondary');
-    const tertiary = sessionStorage.getItem('color-tertiary');
-    const angle = sessionStorage.getItem('angle');
+        document.body.style.backgroundImage = "linear-gradient(" + angle + "deg, " + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
+    else if ( type === 'radial-gradient') {
 
-    document.body.style.backgroundImage = type + "(" + angle + "deg, " + primary + ", " + secondary + ", " + tertiary + ")";
+        document.body.style.backgroundImage = "radial-gradient(" + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
+    else if ( type === 'repeating-linear-gradient') {
+
+        document.body.style.backgroundImage = "repeating-linear-gradient(" + angle + "deg, " + primary + " " +
+            widthPrimary + "%, " + secondary + " " + widthSecondary + "%, " + tertiary + " " + widthTertiary + "%)";
+    }
+}
+
+// Initialize profile picture on page load
+function loadProfilePicture() {
+    const savedPicture = sessionStorage.getItem('profile-picture');
+    if (savedPicture) {
+        const profileImageElement = document.querySelector('.profileImage');
+        if (profileImageElement) {
+            profileImageElement.src = savedPicture;
+        }
+    }
 }
 
 // Initialize stuff when the page loads
 window.addEventListener("load", () => {
     initializeAuthButtons();
     loadProfile();
+    loadProfilePicture();
 });
 
 document.body.innerHTML += `
@@ -191,7 +262,7 @@ document.body.innerHTML += `
         <button class="login-button" id="signOutButton" onClick="signOut()">Sign Out</button>
     </div>
     <div class="profilePicture">
-        <!--<img class="profileImage" src="/media/profile-pictures/tobias-funke.png" alt="Profile picture."/>-->
+        <img class="profileImage" src='/media/profile-pictures/tobias-funke.png' alt="Profile picture."/>
     </div>
 </header>
 `

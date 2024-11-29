@@ -2,19 +2,9 @@ const http = require('http');
 // fs means file system so this whole section requires you to have these things to follow the path
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 
 //initialize the server on localhost
 const server = http.createServer((req, res) => {
-
-    // Adapted from StackOverflow; https://stackoverflow.com/questions/70202109/how-do-we-display-css-and-pictures-through-node-js-without-express-js
-    // Parse the requested URL
-    const parsedUrl = url.parse(req.url, true);
-    // Get the pathname from the URL
-    const pathname = parsedUrl.pathname;
-    // Set the content type based on the file extension
-    const contentType = getContentType(pathname);
-
     if (req.url === '/' || req.url === '/index.html') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -47,8 +37,8 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    } else if (req.url === '/game') {
-        fs.readFile(path.join(__dirname, 'game.html'), (err, data) => {
+    } else if (req.url.startsWith('/game/')) {
+        fs.readFile(path.join(__dirname, req.url), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 res.end('Error loading login page');
@@ -104,16 +94,6 @@ const server = http.createServer((req, res) => {
                 res.end('Error loading options page');
             } else {
                 res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(data);
-            }
-        });
-    } else if (req.url === '/media' + RegExp('.+')) {
-        fs.readFile(path.join(__dirname, string(req.url).replace('/', '')), (err, data, contentType) => {
-            if (err) {
-                res.writeHead(500);
-                res.end('Error loading image');
-            } else {
-                res.writeHead(200, { 'Content-Type': contentType });
                 res.end(data);
             }
         });
@@ -197,9 +177,49 @@ const server = http.createServer((req, res) => {
                 if (ext === '.png') contentType = 'image/png';
                 else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
                 else if (ext === '.gif') contentType = 'image/gif';
+                else if (ext === '.webp') contentType = 'image/webp';
 
-                res.writeHead(200, { 'Content-Type': contentType });
+                res.writeHead(200, {'Content-Type': contentType});
                 res.end(data);
+            }
+        });
+    } else if (req.url === '/profile-pictures' && req.method === 'GET') {
+        const imageDir = path.join(__dirname, 'media/profile-pictures');
+        fs.readdir(imageDir, (err, files) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error reading directory');
+                return;
+            }
+            const images = files.filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(images));
+        });
+    } else if (req.url === '/save-profile-picture' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => (body += chunk));
+        req.on('end', () => {
+            const { image } = JSON.parse(body);
+            fs.writeFileSync('chosen-profile-picture.txt', image, 'utf8');
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('Profile picture saved');
+        });
+    } else if (req.url === '/profile' && req.method === 'GET') {
+        const chosenPicture = fs.existsSync('chosen-profile-picture.txt')
+            ? fs.readFileSync('chosen-profile-picture.txt', 'utf8')
+            : 'tobias-funke.png';
+
+        fs.readFile(path.join(__dirname, 'profile.html'), 'utf8', (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Error loading page');
+            } else {
+                const updatedHtml = data.replace(
+                    '/media/profile-pictures/tobias-funke.png',
+                    `/media/profile-pictures/${chosenPicture}`
+                );
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(updatedHtml);
             }
         });
     // TODO: Write one for '/update-password' (see the updatePassword() function)
@@ -208,29 +228,6 @@ const server = http.createServer((req, res) => {
         res.end('Page not found');
     }
 });
-
-// Adapted from StackOverflow: https://stackoverflow.com/questions/70202109/how-do-we-display-css-and-pictures-through-node-js-without-express-js
-// Function to determine the content type based on the file extension
-function getContentType(filePath) {
-    const extension = path.extname(filePath);
-    switch (extension) {
-        case '.html':
-            return 'text/html';
-        case '.css':
-            return 'text/css';
-        case '.js':
-            return 'text/javascript';
-        case '.jpg':
-        case '.jpeg':
-            return 'image/jpeg';
-        case '.png':
-            return 'image/png';
-        case '.gif':
-            return 'image/gif';
-        default:
-            return 'application/octet-stream';
-    }
-}
 
 server.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
