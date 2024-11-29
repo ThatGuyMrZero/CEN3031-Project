@@ -120,13 +120,6 @@
         </div>
             <div id="profilePictures"></div>
 
-<!--            <header>-->
-<!--                <div class="profilePicture" id="currentProfilePicture"-->
-<!--                     style="background-image: url('/media/profile-pictures/tobias-funke.png');">-->
-<!--                </div>-->
-<!--            </header>-->
-<!--        </div>-->
-
         <div id="colorOptions">
 
             <div class="dropdown">
@@ -245,9 +238,9 @@
         }
 
         allDisplays.forEach( (display) => {
+            document.querySelector('#' + display).style.display =
             ( nullDisplays.includes(display) ) ?
-                document.querySelector('#' + display).style.display = 'none' :
-                document.querySelector('#' + display).style.display = 'flex'
+                'none' : 'flex'
         });
 
     }
@@ -261,7 +254,8 @@
 
         // The promise doesn't have an effect, but it could, I guess.
         // TODO: Figure out why this doesn't update the background, as 'setColors()' runs 'location.reload()'.
-        changeDisplay(bgType).then(setColors());
+        changeDisplay(bgType);
+        setColors();
     }
 
     function setColors() {

@@ -204,24 +204,6 @@ const server = http.createServer((req, res) => {
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             res.end('Profile picture saved');
         });
-    } else if (req.url === '/profile' && req.method === 'GET') {
-        const chosenPicture = fs.existsSync('chosen-profile-picture.txt')
-            ? fs.readFileSync('chosen-profile-picture.txt', 'utf8')
-            : 'tobias-funke.png';
-
-        fs.readFile(path.join(__dirname, 'profile.html'), 'utf8', (err, data) => {
-            if (err) {
-                res.writeHead(500);
-                res.end('Error loading page');
-            } else {
-                const updatedHtml = data.replace(
-                    '/media/profile-pictures/tobias-funke.png',
-                    `/media/profile-pictures/${chosenPicture}`
-                );
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(updatedHtml);
-            }
-        });
     // TODO: Write one for '/update-password' (see the updatePassword() function)
 } else {
         res.writeHead(404);
